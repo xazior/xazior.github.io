@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labs | ChestUp Innovation Hub</title>
+    <link rel="stylesheet" href="design-system.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- ========== Navigation ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">
+                    <span class="logo-text gradient-text">ChestUp</span>
+                    <span
+                        style="font-size: 10px; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">LABS</span>
+                </a>
+                <div class="nav-links hide-mobile">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="#showroom" class="nav-link">Showroom</a>
+                    <a href="#polls" class="nav-link">Vota Design</a>
+                    <a href="#proposals" class="nav-link">Roadmap</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== Hero ========== -->
+    <section class="labs-hero">
+        <div class="container">
+            <span class="eyebrow animate-fade-in">Innovation Hub</span>
+            <h1 class="hero-title animate-fade-in delay-100">
+                Costruiamo il <span class="gradient-text">Futuro</span> Insieme.
+            </h1>
+            <p class="hero-description animate-fade-in delay-200" style="max-width: 600px; margin: 0 auto;">
+                Benvenuto nei Laboratori Suezo. Esplora i prototipi, vota le prossime feature e contribuisci al design
+                della ChestUp V2.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== 1. Showroom Prototipi ========== -->
+    <section id="showroom" class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Showroom Prototipi</h2>
+                <p style="color: var(--color-neutral-400);">Analisi materiali e form factor per la serie Enterprise e
+                    Home.</p>
+            </div>
+
+            <div class="variant-grid">
+                <!-- V1: Industrial -->
+                <div class="variant-card">
+                    <div class="variant-image-container">
+                        <!-- Placeholder until assets ready -->
+                        <img src="assets/variant-industrial.png" alt="Industrial Variant" class="variant-image">
+                        <div class="featured-badge" style="bottom: 20px; top: auto; background: rgba(0,0,0,0.6);">
+                            80x80x80</div>
+                    </div>
+                    <div class="variant-details">
+                        <span class="variant-tag tag-industrial">Enterprise</span>
+                        <h3>Industrial Armor</h3>
+                        <p style="color: var(--color-neutral-400); font-size: var(--text-sm);">Alluminio Dibond
+                            spazzolato su telaio V-Slot 2040. Resistente IP65 per outdoor.</p>
+                    </div>
+                </div>
+
+                <!-- V2: Eco Wood -->
+                <div class="variant-card">
+                    <div class="variant-image-container">
+                        <img src="assets/variant-ecowood.png" alt="Eco Wood Variant" class="variant-image">
+                    </div>
+                    <div class="variant-details">
+                        <span class="variant-tag tag-eco">Home Edition</span>
+                        <h3>Eco-Minimalist</h3>
+                        <p style="color: var(--color-neutral-400); font-size: var(--text-sm);">Finitura in legno
+                            composito con display stealth fumè. Ideale per interni luxury.</p>
+                    </div>
+                </div>
+
+                <!-- V3: Tactical -->
+                <div class="variant-card">
+                    <div class="variant-image-container">
+                        <div style="text-align: center; opacity: 0.5;">
+                            <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="2" y="6" width="20" height="12" rx="2" />
+                                <circle cx="12" cy="12" r="2" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="variant-details">
+                        <span class="variant-tag tag-tactical">MIL-STD</span>
+                        <h3>Tactical (ISP2)</h3>
+                        <p style="color: var(--color-neutral-400); font-size: var(--text-sm);">Polimero rotostampato
+                            indistruttibile. Impilabile (ISP2 pattern) per logistica estrema.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 2. Sondaggi Design (Polls) ========== -->
+    <section id="polls" class="section polls-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="eyebrow" style="color: var(--color-primary-pink);">Community Vote</span>
+                <h2>Scegli il Design</h2>
+                <p style="color: var(--color-neutral-400);">La community decide la prossima icona dell'app. <a
+                        href="logo-showcase.html"
+                        style="color: var(--color-primary-purple); font-weight: bold; margin-left: 8px; text-decoration: none;">Vedi
+                        Gallery Loghi &rarr;</a></p>
+            </div>
+
+            <div class="poll-grid">
+                <!-- Poll 1 -->
+                <div class="poll-card">
+                    <h3>Icon Set V2</h3>
+                    <p style="color: var(--color-neutral-500); font-size: var(--text-sm);">Quale stile di icone
+                        preferisci per la dashboard?</p>
+
+                    <div class="poll-options">
+                        <div class="poll-option" onclick="selectOption(this, 1)">
+                            <div style="font-size: 32px;">Filled</div>
+                            <span style="font-size: 12px; color: #666; margin-top: 8px;">Solid Style</span>
+                        </div>
+                        <div class="poll-option" onclick="selectOption(this, 1)">
+                            <div style="font-size: 32px;">Stroke</div>
+                            <span style="font-size: 12px; color: #666; margin-top: 8px;">Outline Style</span>
+                        </div>
+                    </div>
+
+                    <div class="poll-bar">
+                        <div class="poll-progress" style="width: 60%;"></div>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #666;">
+                        <span>60% Solid</span>
+                        <span>40% Outline</span>
+                    </div>
+                </div>
+
+                <!-- Poll 2 -->
+                <div class="poll-card">
+                    <h3>Led Ring Color</h3>
+                    <p style="color: var(--color-neutral-500); font-size: var(--text-sm);">Colore di default per lo
+                        stato "In Attesa"?</p>
+
+                    <div class="poll-options">
+                        <div class="poll-option" onclick="selectOption(this, 2)">
+                            <div
+                                style="width: 24px; height: 24px; background: cyan; border-radius: 50%; box-shadow: 0 0 10px cyan;">
+                            </div>
+                            <span style="font-size: 12px; color: #666; margin-top: 8px;">Cyan Pulse</span>
+                        </div>
+                        <div class="poll-option" onclick="selectOption(this, 2)">
+                            <div
+                                style="width: 24px; height: 24px; background: orange; border-radius: 50%; box-shadow: 0 0 10px orange;">
+                            </div>
+                            <span style="font-size: 12px; color: #666; margin-top: 8px;">Amber Glow</span>
+                        </div>
+                    </div>
+
+                    <div class="poll-bar">
+                        <div class="poll-progress" style="width: 30%;"></div>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #666;">
+                        <span>30% Cyan</span>
+                        <span>70% Amber</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 3. Proposte (Proposals) ========== -->
+    <section id="proposals" class="section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Roadmap & Proposte</h2>
+                <p style="color: var(--color-neutral-400);">Feature richieste dagli utenti. Vota quelle che vuoi vedere
+                    realizzate.</p>
+            </div>
+
+            <div class="proposals-list" style="max-width: 800px; margin: 0 auto;">
+                <!-- Prop Special: Naming -->
+                <div class="proposal-item"
+                    style="border: 1px solid var(--color-primary-purple); background: rgba(139, 92, 246, 0.05);">
+                    <div class="vote-box">
+                        <span style="font-size: 24px;">🧠</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin-bottom: 4px; color: white;">Studio Naming & Identità</h4>
+                        <p style="color: var(--color-neutral-400); font-size: var(--text-sm); margin: 0;">Ipotesi nomi
+                            alternativi per l'Assistente AI e l'Azienda.</p>
+                        <a href="naming-proposals.html"
+                            style="font-size: 12px; color: var(--color-primary-purple); font-weight: bold; margin-top: 8px; display: inline-block; text-decoration: none;">Vota
+                            le Proposte &rarr;</a>
+                    </div>
+                    <div class="variant-tag" style="background: var(--color-primary-purple); color: white;">NEW</div>
+                </div>
+
+                <!-- Prop 1 -->
+                <div class="proposal-item">
+                    <div class="vote-box">
+                        <button class="btn-vote" onclick="toggleVote(this)">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 15l7-7 7 7" />
+                            </svg>
+                        </button>
+                        <span style="font-weight: bold; color: white;">248</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin-bottom: 4px;">Integrazione Drone Dock</h4>
+                        <p style="color: var(--color-neutral-400); font-size: var(--text-sm); margin: 0;">Supporto
+                            nativo per atterraggio droni delivery sul coperchio, con ricarica induttiva.</p>
+                    </div>
+                    <div class="variant-tag tag-tour">Planned</div>
+                </div>
+
+                <!-- Prop 2 -->
+                <div class="proposal-item">
+                    <div class="vote-box">
+                        <button class="btn-vote" onclick="toggleVote(this)">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 15l7-7 7 7" />
+                            </svg>
+                        </button>
+                        <span style="font-weight: bold; color: white;">186</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin-bottom: 4px;">Coperchio a Pannelli Solari</h4>
+                        <p style="color: var(--color-neutral-400); font-size: var(--text-sm); margin: 0;">Rivestimento
+                            superiore con celle fotovoltaiche per estendere l'autonomia a ∞ in outdoor.</p>
+                    </div>
+                    <div class="variant-tag tag-eco">Review</div>
+                </div>
+
+                <!-- Prop 3 -->
+                <div class="proposal-item">
+                    <div class="vote-box">
+                        <button class="btn-vote" onclick="toggleVote(this)">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 15l7-7 7 7" />
+                            </svg>
+                        </button>
+                        <span style="font-weight: bold; color: white;">42</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin-bottom: 4px;">Modulo Refrigerato</h4>
+                        <p style="color: var(--color-neutral-400); font-size: var(--text-sm); margin: 0;">Compartimento
+                            isolato attivo per consegne grocery/food.</p>
+                    </div>
+                    <div class="variant-tag">New</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== Footer ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Suezo Labs. ChestUp Project.</p>
+                <div class="footer-social">
+                    <a href="#">GH</a>
+                    <a href="#">TW</a>
+                    <a href="#">LI</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Simple interaction for Labs page
+        function selectOption(el, pollId) {
+            // Remove selected from siblings
+            let siblings = el.parentElement.children;
+            for (let sib of siblings) {
+                sib.classList.remove('selected');
+            }
+            // Add to clicked
+            el.classList.add('selected');
+        }
+
+        function toggleVote(btn) {
+            btn.classList.toggle('voted');
+            let span = btn.nextElementSibling;
+            let count = parseInt(span.innerText);
+            if (btn.classList.contains('voted')) {
+                span.innerText = count + 1;
+                span.style.color = 'var(--color-primary-purple)';
+            } else {
+                span.innerText = count - 1;
+                span.style.color = 'white';
+            }
+        }
+    </script>
+</body>
+
+</html>

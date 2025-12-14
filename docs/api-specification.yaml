@@ -1,0 +1,828 @@
+openapi: 3.0.3
+info:
+  title: SuperNØva Smart Locker API
+  description: |
+    API RESTful per il sistema di smart locker SuperNØva.
+
+    ## Autenticazione
+    L'API utilizza JWT (JSON Web Tokens) per l'autenticazione. Includi il token nell'header:
+    ```
+    Authorization: Bearer <token>
+    ```
+
+    ## Rate Limiting
+    - 100 richieste per 15 minuti per IP
+    - Risposta 429 quando il limite viene superato
+
+    ## Errori
+    Tutte le risposte di errore seguono il formato:
+    ```json
+    {
+      "success": false,
+      "error": {
+        "code": "ERROR_CODE",
+        "message": "Descrizione dell'errore"
+      }
+    }
+    ```
+  version: 1.0.0
+  contact:
+    name: SuperNØva Support
+    email: api@supernova-locker.it
+  license:
+    name: Proprietary
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Development server
+  - url: https://api.supernova-locker.it/v1
+    description: Production server
+
+tags:
+  - name: Authentication
+    description: Registrazione, login e gestione token
+  - name: Devices
+    description: Gestione dispositivi smart locker
+  - name: Locations
+    description: GPS tracking e geofencing
+  - name: Access Control
+    description: Permessi, condivisioni e codici temporanei
+  - name: Logs
+    description: Log accessi e audit trail
+
+paths:
+  # ============================================
+  # Authentication Endpoints
+  # ============================================
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: Registra nuovo utente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, name]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  minLength: 8
+                  example: SecurePass123
+                name:
+                  type: string
+                  minLength: 2
+                  example: Mario Rossi
+      responses:
+        '201':
+          description: Utente registrato con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '409':
+          description: Email già registrata
+
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Login utente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login effettuato con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Credenziali non valide
+
+  /auth/refresh:
+    post:
+      tags: [Authentication]
+      summary: Rinnova access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Token rinnovato
+        '401':
+          description: Refresh token non valido
+
+  /auth/me:
+    get:
+      tags: [Authentication]
+      summary: Ottieni profilo utente corrente
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profilo utente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  # ============================================
+  # Devices Endpoints
+  # ============================================
+  /devices:
+    get:
+      tags: [Devices]
+      summary: Lista tutti i dispositivi
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista dispositivi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Device'
+    post:
+      tags: [Devices]
+      summary: Registra nuovo dispositivo
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                  example: Cassapanca Giardino
+                serial_number:
+                  type: string
+                  example: CP2025-001
+      responses:
+        '201':
+          description: Dispositivo registrato
+
+  /devices/{deviceId}:
+    get:
+      tags: [Devices]
+      summary: Dettagli dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Dettagli dispositivo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '404':
+          description: Dispositivo non trovato
+    patch:
+      tags: [Devices]
+      summary: Aggiorna dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                geofence:
+                  $ref: '#/components/schemas/Geofence'
+      responses:
+        '200':
+          description: Dispositivo aggiornato
+    delete:
+      tags: [Devices]
+      summary: Elimina dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Dispositivo eliminato
+
+  /devices/{deviceId}/lock:
+    post:
+      tags: [Devices]
+      summary: Blocca dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Dispositivo bloccato
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      is_locked:
+                        type: boolean
+                        example: true
+                      timestamp:
+                        type: string
+                        format: date-time
+
+  /devices/{deviceId}/unlock:
+    post:
+      tags: [Devices]
+      summary: Sblocca dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  example: Ritiro pacco
+      responses:
+        '200':
+          description: Dispositivo sbloccato
+
+  /devices/{deviceId}/status:
+    get:
+      tags: [Devices]
+      summary: Stato corrente dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Stato dispositivo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceStatus'
+
+  # ============================================
+  # Locations Endpoints
+  # ============================================
+  /locations/{deviceId}:
+    get:
+      tags: [Locations]
+      summary: Posizione corrente dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Posizione corrente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+    post:
+      tags: [Locations]
+      summary: Aggiorna posizione (uso interno)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [latitude, longitude]
+              properties:
+                latitude:
+                  type: number
+                  example: 45.052
+                longitude:
+                  type: number
+                  example: 9.695
+                accuracy_m:
+                  type: number
+                  example: 2.5
+      responses:
+        '200':
+          description: Posizione aggiornata
+
+  /locations/{deviceId}/history:
+    get:
+      tags: [Locations]
+      summary: Cronologia posizioni
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 90
+            default: 7
+      responses:
+        '200':
+          description: Cronologia posizioni
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Location'
+
+  /locations/{deviceId}/geofence:
+    post:
+      tags: [Locations]
+      summary: Configura geofence
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Geofence'
+      responses:
+        '200':
+          description: Geofence configurato
+    delete:
+      tags: [Locations]
+      summary: Rimuovi geofence
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Geofence rimosso
+
+  /locations/nearby/search:
+    get:
+      tags: [Locations]
+      summary: Cerca dispositivi vicini
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: lng
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: radius_m
+          in: query
+          schema:
+            type: number
+            default: 500
+      responses:
+        '200':
+          description: Dispositivi trovati
+
+  # ============================================
+  # Access Control Endpoints
+  # ============================================
+  /access/{deviceId}/permissions:
+    get:
+      tags: [Access Control]
+      summary: Lista permessi dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Lista permessi
+
+  /access/{deviceId}/share:
+    post:
+      tags: [Access Control]
+      summary: Condividi accesso
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, role]
+              properties:
+                email:
+                  type: string
+                  format: email
+                role:
+                  type: string
+                  enum: [viewer, manager]
+                expires_at:
+                  type: string
+                  format: date-time
+      responses:
+        '201':
+          description: Accesso condiviso
+
+  /access/{deviceId}/share/{permissionId}:
+    delete:
+      tags: [Access Control]
+      summary: Revoca accesso condiviso
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+        - name: permissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Accesso revocato
+
+  /access/{deviceId}/temp-code:
+    post:
+      tags: [Access Control]
+      summary: Genera codice temporaneo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [validity_minutes]
+              properties:
+                validity_minutes:
+                  type: integer
+                  minimum: 5
+                  maximum: 1440
+                  example: 30
+                note:
+                  type: string
+                  example: Consegna DHL
+      responses:
+        '201':
+          description: Codice generato
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      code_id:
+                        type: string
+                      code:
+                        type: string
+                        example: A1B2C3
+                      expires_at:
+                        type: string
+                        format: date-time
+
+  /access/{deviceId}/verify-code:
+    post:
+      tags: [Access Control]
+      summary: Verifica e usa codice temporaneo
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code:
+                  type: string
+                  example: A1B2C3
+      responses:
+        '200':
+          description: Dispositivo sbloccato
+        '401':
+          description: Codice non valido o scaduto
+
+  # ============================================
+  # Logs Endpoints
+  # ============================================
+  /logs:
+    get:
+      tags: [Logs]
+      summary: Lista log accessi
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: device_id
+          in: query
+          schema:
+            type: string
+        - name: action
+          in: query
+          schema:
+            type: string
+            enum: [unlock, lock, all]
+        - name: granted
+          in: query
+          schema:
+            type: boolean
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Lista log
+
+  /logs/{deviceId}:
+    get:
+      tags: [Logs]
+      summary: Log accessi per dispositivo
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 7
+      responses:
+        '200':
+          description: Log dispositivo
+
+  /logs/{deviceId}/stats:
+    get:
+      tags: [Logs]
+      summary: Statistiche accessi
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 7
+      responses:
+        '200':
+          description: Statistiche
+
+  /logs/export/csv:
+    get:
+      tags: [Logs]
+      summary: Esporta log in CSV
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: File CSV
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    deviceId:
+      name: deviceId
+      in: path
+      required: true
+      description: ID univoco del dispositivo
+      schema:
+        type: string
+        example: dev_cassapanca_001
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        subscription_tier:
+          type: string
+          enum: [free, premium, enterprise]
+        created_at:
+          type: string
+          format: date-time
+
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+            tokens:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                refreshToken:
+                  type: string
+                expiresIn:
+                  type: string
+
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        model:
+          type: string
+        firmware_version:
+          type: string
+        hardware_specs:
+          type: object
+          properties:
+            gps_module:
+              type: string
+            lte_module:
+              type: string
+            battery_capacity_mah:
+              type: integer
+            mcu:
+              type: string
+        current_location:
+          $ref: '#/components/schemas/Location'
+        status:
+          $ref: '#/components/schemas/DeviceStatus'
+        geofence:
+          $ref: '#/components/schemas/Geofence'
+        created_at:
+          type: string
+          format: date-time
+
+    DeviceStatus:
+      type: object
+      properties:
+        is_locked:
+          type: boolean
+        battery_percent:
+          type: integer
+        signal_strength:
+          type: integer
+        gps_fix:
+          type: string
+          enum: ['2D', '3D', 'none']
+        last_checkin:
+          type: string
+          format: date-time
+
+    Location:
+      type: object
+      properties:
+        latitude:
+          type: number
+          example: 45.052
+        longitude:
+          type: number
+          example: 9.695
+        accuracy_m:
+          type: number
+          example: 2.5
+        timestamp:
+          type: string
+          format: date-time
+
+    Geofence:
+      type: object
+      properties:
+        center:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+        radius_m:
+          type: number
+          minimum: 10
+          maximum: 10000
+        alert_on_exit:
+          type: boolean
+          default: true
+        alert_on_enter:
+          type: boolean
+          default: false
+
+    AccessLog:
+      type: object
+      properties:
+        id:
+          type: string
+        device_id:
+          type: string
+        user_name:
+          type: string
+        action:
+          type: string
+          enum: [unlock, lock]
+        method:
+          type: string
+          enum: [app, nfc, ble, temp_code, api]
+        granted:
+          type: boolean
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: string

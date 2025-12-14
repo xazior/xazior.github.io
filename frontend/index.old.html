@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChestUp | The Smartest Locker.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Override specific styles for the premium look */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at 70% 30%, #1a1033 0%, #050505 60%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #fff, #b8b8b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: #888;
+            max-width: 500px;
+            margin-bottom: 40px;
+        }
+
+        .hero-image-container {
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 80px rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInRight 1s ease-out;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .hero-image-container:hover .hero-img {
+            transform: scale(1.02);
+        }
+
+        /* Overlay badge on image */
+        .badge-ai {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: #ec4899;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ec4899;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 100px;
+            }
+
+            .hero-text p {
+                margin: 0 auto 40px;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SVG DEFS -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8b5cf6" />
+                <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+            <!-- PIXEL-CHAN ICON -->
+            <symbol id="icon-chest" viewBox="0 0 100 100">
+                <!-- Body -->
+                <rect x="15" y="35" width="70" height="45" rx="14" fill="none" stroke="url(#mainGrad)" stroke-width="8"
+                    stroke-linecap="round" />
+                <!-- Lid -->
+                <path d="M22 24 H78" stroke="url(#mainGrad)" stroke-width="8" stroke-linecap="round" />
+                <!-- Face -->
+                <g transform="translate(0, 50)">
+                    <g transform="translate(35, 0)">
+                        <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5" stroke-linecap="round" />
+                    </g>
+                    <g transform="translate(65, 0)">
+                        <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none" stroke="white"
+                            stroke-width="4" />
+                        <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                    </g>
+                </g>
+            </symbol>
+        </defs>
+    </svg>
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="nav-logo">
+                <svg class="logo-svg" width="40" height="40">
+                    <use href="#icon-chest" />
+                </svg>
+                <span class="logo-text">ChestUp</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Smart Features</a>
+                <a href="#network">Network</a>
+                <a href="suezo-merch.html" class="store-link">Suezo Merch <span
+                        style="font-size:10px; vertical-align:top; color:#ec4899;">●</span></a>
+                <button class="cta-button small">Pre-order</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <!-- Background light effects -->
+        <div class="blob" style="top: -20%; left: -10%; background: #8b5cf6; opacity: 0.15;"></div>
+        <div class="blob" style="bottom: -20%; right: -10%; background: #ec4899; opacity: 0.15;"></div>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Not Just a Box.<br>It's Suezo.</h1>
+                <p>The first AI-powered delivery chest that recognizes you, protects your packages, and looks good on
+                    your porch.</p>
+                <div class="hero-buttons">
+                    <button class="cta-button">Order ChestUp</button>
+                    <button class="secondary-button" style="border: 1px solid #333;">Watch Video</button>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-image-container">
+                    <!-- REALISTIC RENDER IMAGE HERE -->
+                    <img src="hero-locker.png" alt="ChestUp Smart Locker - Premium Black Metal with LED Face"
+                        class="hero-img">
+
+                    <div class="badge-ai">
+                        <div class="badge-dot"></div>
+                        Suezo AI Active
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features-section">
+        <div class="section-container">
+            <div class="section-header center">
+                <h2 style="font-size: 2.5rem;">Engineered for Trust.</h2>
+                <p style="color: #666;">Hardware that withstands theft. Software that prevents it.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon-box">🛡️</div>
+                    <h3>Anti-Theft Blade</h3>
+                    <p>Reinforced locking mechanism designed to resist forced entry.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box">👁️</div>
+                    <h3>Smart Vision</h3>
+                    <p>Suezo recognizes delivery drivers and you, automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box">📱</div>
+                    <h3>App Control</h3>
+                    <p>Unlock from anywhere. Grant temporary access for returns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <svg width="24" height="24">
+                    <use href="#icon-chest" />
+                </svg>
+                <span>ChestUp Inc.</span>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="suezo-merch.html">Official Store</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

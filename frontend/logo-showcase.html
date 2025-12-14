@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChestUp - Logo Voting Round 3.2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030303;
+            --card-bg: #0f0f0f;
+            --border: #222;
+            --accent-start: #8b5cf6;
+            --accent-end: #ec4899;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: -0.05rem;
+        }
+
+        p.brief {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            transition: 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: #444;
+            background: #141414;
+            transform: translateY(-2px);
+        }
+
+        .preview {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .meta {
+            text-align: center;
+            width: 100%;
+        }
+
+        .title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            font-size: 1.1rem;
+            display: block;
+        }
+
+        .desc {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            min-height: 2.8em;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #222;
+            color: #888;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        /* SVG Definitions */
+        svg {
+            overflow: visible;
+        }
+
+        .grad-fill {
+            fill: url(#mainGrad);
+        }
+
+        .grad-stroke {
+            stroke: url(#mainGrad);
+        }
+
+        .twitch-fill {
+            fill: url(#twitchGrad);
+        }
+    </style>
+</head>
+
+<body>
+
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8b5cf6" />
+                <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+            <linearGradient id="kawaiiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a78bfa" />
+                <stop offset="100%" stop-color="#f472b6" />
+            </linearGradient>
+            <linearGradient id="twitchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#9146FF" /> <!-- Twitch Purple ish -->
+                <stop offset="100%" stop-color="#7c3aed" />
+            </linearGradient>
+            <filter id="softGlow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
+
+    <header>
+        <h1>10 Varianti: "Chestup Branding"</h1>
+        <p class="brief">Brief: Pixel-Approved Aesthetics. Comparing Chunky Art Toy vs Streamer Block.</p>
+    </header>
+
+    <div class="grid">
+
+        <!-- 1. The Essential Peek -->
+        <div class="card">
+            <span class="tag">Refined</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <path d="M15 35 H85 V80 H15 Z" fill="none" stroke="white" stroke-width="4"
+                        stroke-linejoin="round" />
+                    <path d="M10 35 L85 20" stroke="white" stroke-width="4" stroke-linecap="round" />
+                    <!-- Square Eye -->
+                    <rect x="58" y="42" width="20" height="20" rx="3" fill="#111" stroke="url(#mainGrad)"
+                        stroke-width="2" />
+                    <circle cx="68" cy="52" r="4" fill="white" />
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">1. Essential</span>
+                <p class="desc">La versione pulita del concept originale. Linee sottili, coperchio angolato, modulo
+                    occhio in evidenza.</p>
+            </div>
+        </div>
+
+        <!-- 2. Insta-Chest (Pixel Chunky) -->
+        <div class="card">
+            <span class="tag">Pixel Approved</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+
+                    <!-- CHUNKY BODY: Shorter, wider, rounder (Squircle) -->
+                    <rect x="15" y="35" width="70" height="45" rx="14" fill="none" stroke="url(#kawaiiGrad)"
+                        stroke-width="8" stroke-linecap="round" />
+
+                    <!-- CHUNKY LID: Floating slightly above -->
+                    <path d="M22 24 H78" stroke="url(#kawaiiGrad)" stroke-width="8" stroke-linecap="round" />
+
+                    <!-- FACE SENSORS: Big & Low for cuteness -->
+                    <g transform="translate(0, 50)">
+
+                        <!-- Left: THE CUT (Bold, Integrated) -->
+                        <g transform="translate(35, 0)">
+                            <!-- A nice fat vertical pill shape (negative space feel) -->
+                            <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5" stroke-linecap="round" />
+                        </g>
+
+                        <!-- Right: THE EYE (Big rounded square) -->
+                        <g transform="translate(65, 0)">
+                            <!-- Outer Rim -->
+                            <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none" stroke="white"
+                                stroke-width="4" />
+                            <!-- Pupil (Chunky Dot) -->
+                            <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                        </g>
+
+                    </g>
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">2. Pixel-Chan</span>
+                <p class="desc">Proporzioni "Chunky". Linee spesse (8px), corpo compatto. Occhi grandi e bassi. Sembra
+                    un art toy da collezione.</p>
+            </div>
+        </div>
+
+        <!-- 3. The Tesla T-Lock (Enhanced) -->
+        <div class="card">
+            <span class="tag">Tesla Style</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <!-- T Shape -->
+                    <path d="M15 25 H85" stroke="white" stroke-width="6" stroke-linecap="square" />
+                    <path d="M50 25 V85" stroke="white" stroke-width="6" stroke-linecap="square" />
+
+                    <!-- Eye Module (Left) -->
+                    <rect x="25" y="40" width="16" height="16" rx="2" fill="url(#mainGrad)" />
+                    <circle cx="33" cy="48" r="3" fill="white" />
+
+                    <!-- Lock Module (Right) -->
+                    <circle cx="67" cy="48" r="8" fill="white" />
+                    <rect x="65" y="44" width="4" height="6" rx="1" fill="#111" />
+                    <circle cx="67" cy="51" r="2.5" fill="#111" />
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">3. T-Metric Dual</span>
+                <p class="desc">Struttura a T centrale. I due sensori (Occhio e Lock) sono sospesi magneticamente ai
+                    lati della colonna vertebrale.</p>
+            </div>
+        </div>
+
+        <!-- 4. Bento Box (Updated) -->
+        <div class="card">
+            <span class="tag">Bento UI</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <!-- Grid Body -->
+                    <rect x="15" y="15" width="70" height="70" rx="12" stroke="white" stroke-width="3" fill="none" />
+
+                    <!-- Module 1: Eye -->
+                    <rect x="22" y="22" width="26" height="26" rx="6" fill="url(#mainGrad)" opacity="0.9" />
+                    <circle cx="35" cy="35" r="4" fill="white" />
+
+                    <!-- Module 2: Lock -->
+                    <rect x="52" y="22" width="26" height="26" rx="6" fill="white" />
+                    <circle cx="65" cy="33" r="3" fill="#111" />
+                    <rect x="63.5" y="33" width="3" height="5" fill="#111" />
+
+                    <!-- Module 3: Storage (Lines) -->
+                    <rect x="22" y="52" width="56" height="26" rx="6" stroke="white" stroke-width="2" fill="none"
+                        opacity="0.5" />
+                    <line x1="30" y1="60" x2="72" y2="60" stroke="white" stroke-width="2" />
+                    <line x1="30" y1="70" x2="55" y2="70" stroke="white" stroke-width="2" />
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">4. Bento Grid</span>
+                <p class="desc">Layout a griglia funzionale. L'occhio controlla, il lock protegge, lo spazio sotto è per
+                    il contenuto (pacco).</p>
+            </div>
+        </div>
+
+        <!-- 5. Dual Core (New Request) -->
+        <div class="card">
+            <span class="tag">Dual Function</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <!-- Chest Body -->
+                    <path d="M10 35 H90 V80 H10 Z" fill="none" stroke="white" stroke-width="3"
+                        stroke-linejoin="round" />
+                    <path d="M5 35 L95 25" stroke="white" stroke-width="3" stroke-linecap="round" />
+
+                    <!-- LEFT: Suezo Eye (Square) -->
+                    <g transform="translate(25, 45)">
+                        <rect x="0" y="0" width="22" height="22" rx="4" fill="url(#mainGrad)" />
+                        <circle cx="11" cy="11" r="3" fill="white" />
+                    </g>
+
+                    <!-- RIGHT: Lock (Circular, Inverted) -->
+                    <g transform="translate(60, 45)">
+                        <!-- Inverted logic: White fill, dark cut -->
+                        <circle cx="11" cy="11" r="11" fill="white" />
+                        <!-- Keyhole Cut -->
+                        <path d="M8 6 H14 V12 H8 Z M11 12 L11 17 M9.5 17 H12.5" stroke="#111" stroke-width="0"
+                            fill="#111" />
+                        <!-- Simple Keyhole style -->
+                        <rect x="9" y="5" width="4" height="6" rx="1" fill="#111" />
+                        <circle cx="11" cy="14" r="3.5" fill="#111" />
+                    </g>
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">5. Dual Core</span>
+                <p class="desc">Equilibrio perfetto. A sinistra l'IA (quadrato, viola). A destra la Sicurezza (cerchio,
+                    bianco/nero invertito). Visione + Protezione.</p>
+            </div>
+        </div>
+
+        <!-- 6. Twitch Style (MOVED HERE) -->
+        <div class="card">
+            <span class="tag">Streamer Pop</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+
+                    <!-- Hard Shadow (Depth) -->
+                    <path d="M25 30 L85 30 L85 85 L35 85 L25 75 Z" fill="none" stroke="#333" stroke-width="0"
+                        fill-opacity="0.5" />
+                    <path d="M20 20 H80 V75 H70 L60 85 H30 L20 75 V20 Z" transform="translate(5, 5)" fill="#1a1a1a" />
+
+                    <!-- Main Body Block -->
+                    <!-- Angular cut at bottom right and left -->
+                    <path d="M20 20 H80 V70 H70 L60 80 H30 L20 70 V20 Z" fill="url(#twitchGrad)" />
+
+                    <!-- Lid Separation Line (The Mouth/Visor) -->
+                    <path d="M20 35 H80" stroke="rgba(0,0,0,0.2)" stroke-width="4" />
+
+                    <!-- FACE SENSORS (Negative Space) -->
+                    <g transform="translate(0, 5)">
+                        <!-- Left: BLADE LOCK -->
+                        <g transform="translate(38, 45)">
+                            <rect x="-3" y="-12" width="6" height="24" rx="2" fill="white" />
+                        </g>
+
+                        <!-- Right: AI EYE -->
+                        <g transform="translate(62, 45)">
+                            <rect x="-10" y="-10" width="20" height="20" rx="4" fill="white" />
+                            <rect x="-4" y="-4" width="8" height="8" rx="2" fill="#7c3aed" />
+                        </g>
+                    </g>
+
+                    <!-- Highlight Top -->
+                    <path d="M22 22 H78" stroke="white" stroke-width="2" stroke-opacity="0.3" />
+
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">6. Twitch-Chest</span>
+                <p class="desc">Solido, angolare, con "hard drop shadow". Silhouette iconica stile app moderna. Colori
+                    pop e sensori in negativo.</p>
+            </div>
+        </div>
+
+        <!-- 7. BACKUP OF PREVIOUS v2 -->
+        <div class="card">
+            <span class="tag">BACKUP</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <defs>
+                        <linearGradient id="instaGradBackup" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#8b5cf6" />
+                            <stop offset="50%" stop-color="#ec4899" />
+                            <stop offset="100%" stop-color="#f59e0b" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Chest Body (Bottom U) -->
+                    <path d="M20 38 V75 C20 82 25 85 30 85 H70 C75 85 80 82 80 75 V38" fill="none"
+                        stroke="url(#instaGradBackup)" stroke-width="7" stroke-linecap="round"
+                        stroke-linejoin="round" />
+
+                    <!-- Lid (Top Cap) -->
+                    <path d="M15 28 H85" stroke="url(#instaGradBackup)" stroke-width="7" stroke-linecap="round" />
+
+                    <!-- SENSORS GROUP -->
+                    <g transform="translate(0, 5)">
+                        <!-- Left: Lock -->
+                        <g transform="translate(35, 50)">
+                            <circle cx="0" cy="0" r="10" fill="none" stroke="white" stroke-width="1.5" />
+                            <path d="M0 -7 L0 7" stroke="white" stroke-width="3" stroke-linecap="round" />
+                        </g>
+
+                        <!-- Right: AI -->
+                        <g transform="translate(65, 50)">
+                            <rect x="-9" y="-9" width="18" height="18" rx="3" fill="none" stroke="white"
+                                stroke-width="3" />
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">7. Insta-Chest Legacy</span>
+                <p class="desc">BACKUP della versione precedente geometrica. Corpo e coperchio separati, stroke spessi,
+                    bilanciato.</p>
+            </div>
+        </div>
+
+        <!-- 8. Corner Peek -->
+        <div class="card">
+            <span class="tag">Minimal</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <rect x="20" y="30" width="60" height="50" rx="2" stroke="white" stroke-width="3" fill="none" />
+                    <!-- Corner lift -->
+                    <path d="M60 30 L80 15" stroke="white" stroke-width="3" />
+                    <path d="M80 30 L80 15" stroke="white" stroke-width="3" stroke-dasharray="2 2" />
+
+                    <!-- Eye in the gap -->
+                    <rect x="62" y="22" width="14" height="14" rx="2" fill="url(#mainGrad)" />
+                    <circle cx="69" cy="29" r="2" fill="#fff" />
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">8. Corner Lift</span>
+                <p class="desc">Solo un angolo si alza. Sottile, elegante. Suggerisce discrezione assoluta.</p>
+            </div>
+        </div>
+
+        <!-- 9. Bracket Code -->
+        <div class="card">
+            <span class="tag">Dev / Code</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <!-- Brackets -->
+                    <path d="M30 30 H20 V70 H30" stroke="white" stroke-width="4" fill="none" />
+                    <path d="M70 30 H80 V70 H70" stroke="white" stroke-width="4" fill="none" />
+
+                    <!-- Eye Cursor -->
+                    <rect x="38" y="38" width="24" height="24" rx="4" fill="url(#mainGrad)" />
+                    <circle cx="50" cy="50" r="4" fill="#000" />
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">9. Dev Brackets</span>
+                <p class="desc">La cassa è definita dai delimitatori di codice. Perfetto per un'azienda tech-first.</p>
+            </div>
+        </div>
+
+        <!-- 10. The Stack -->
+        <div class="card">
+            <span class="tag">Abstract</span>
+            <div class="preview">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                    <!-- Body Stack -->
+                    <rect x="25" y="55" width="50" height="25" rx="4" stroke="white" stroke-width="3" fill="none" />
+                    <!-- Lid Stack -->
+                    <rect x="25" y="20" width="50" height="15" rx="4" stroke="white" stroke-width="3" fill="none" />
+
+                    <!-- Eye Squeezed -->
+                    <rect x="42" y="38" width="16" height="14" fill="url(#mainGrad)" />
+                    <rect x="47" y="43" width="6" height="4" fill="white" />
+                </svg>
+            </div>
+            <div class="meta">
+                <span class="title">10. The Stack</span>
+                <p class="desc">Pile di hardware. L'occhio è il "processore" tra gli strati di sicurezza. Solido.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

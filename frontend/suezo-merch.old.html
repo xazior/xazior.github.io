@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suezo Merch | ChestUp Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- Reuse main styles -->
+    <style>
+        /* Specific Merch Styles */
+        body {
+            background-color: #050505;
+        }
+
+        .hero-section {
+            padding: 100px 20px 60px;
+            text-align: center;
+        }
+
+        .mascot-hero {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .merch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .product-card {
+            background: #111;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #222;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: #444;
+        }
+
+        .product-image {
+            height: 300px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+
+        /* LOGO SVG DEFINITION FOR REUSE */
+        .suezo-logo {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Mockup Styles */
+        .tshirt-mockup {
+            width: 220px;
+            height: 220px;
+            background: #222;
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M20 20 H35 L40 10 H60 L65 20 H80 V40 L75 40 V90 H25 V40 L20 40 Z" fill="black"/></svg>');
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M25 25 Q35 25 40 15 Q50 15 60 15 Q65 25 75 25 V45 L70 45 V90 H30 V45 L25 45 Z" fill="black"/></svg>');
+            mask-size: contain;
+            -webkit-mask-size: contain;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- REUSABLE LOGO DEFINITION -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="kawaiiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a78bfa" /> <!-- Pastel Purple -->
+                <stop offset="100%" stop-color="#f472b6" /> <!-- Pastel Pink -->
+            </linearGradient>
+            <symbol id="icon-suezo" viewBox="0 0 100 100">
+                <!-- CHUNKY BODY -->
+                <rect x="15" y="35" width="70" height="45" rx="14" fill="#111" stroke="url(#kawaiiGrad)"
+                    stroke-width="8" stroke-linecap="round" />
+
+                <!-- CHUNKY LID -->
+                <path d="M22 24 H78" stroke="url(#kawaiiGrad)" stroke-width="8" stroke-linecap="round" />
+
+                <!-- FACE SENSORS -->
+                <g transform="translate(0, 50)">
+                    <!-- Left: BLADE LOCK -->
+                    <g transform="translate(35, 0)">
+                        <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5" stroke-linecap="round" />
+                    </g>
+
+                    <!-- Right: AI EYE -->
+                    <g transform="translate(65, 0)">
+                        <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none" stroke="white"
+                            stroke-width="4" />
+                        <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                    </g>
+                </g>
+            </symbol>
+        </defs>
+    </svg>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">
+            <svg class="logo-svg" width="40" height="40">
+                <use href="#icon-suezo" />
+            </svg>
+            <span class="logo-text">ChestUp</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#" class="active">Merch</a>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="mascot-hero">
+            <svg class="suezo-logo">
+                <use href="#icon-suezo" />
+            </svg>
+        </div>
+        <h1>Meet Suezo.</h1>
+        <p style="color:#888; max-width: 500px; margin: 0 auto; line-height: 1.6;">
+            L'AI che protegge le tue cose. Carina, squadrata e indistruttibile.<br>
+            Indossa il "Pixel Approved" look.
+        </p>
+    </section>
+
+    <div class="merch-grid">
+
+        <!-- Product 1: The Essential Tee -->
+        <div class="product-card">
+            <div class="product-image">
+                <!-- Simple CSS Shirt Shape with Logo -->
+                <div
+                    style="width: 200px; height: 200px; background: #222; border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 100%, 0% 100%, 0% 20%);">
+                    <svg width="80" height="80">
+                        <use href="#icon-suezo" />
+                    </svg>
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Suezo Core Tee</div>
+                <div class="product-price">€29.99</div>
+            </div>
+        </div>
+
+        <!-- Product 2: Sticker Pack -->
+        <div class="product-card">
+            <div class="product-image">
+                <!-- Sticker Mockup -->
+                <div style="transform: rotate(-10deg); filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));">
+                    <svg width="120" height="120"
+                        style="background: #111; border-radius: 20px; padding: 10px; border: 4px solid white;">
+                        <use href="#icon-suezo" />
+                    </svg>
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Holo-Sticker Pack</div>
+                <div class="product-price">€9.99</div>
+            </div>
+        </div>
+
+        <!-- Product 3: Cap -->
+        <div class="product-card">
+            <div class="product-image">
+                <div
+                    style="width: 180px; height: 100px; background: #222; border-radius: 50px 50px 10px 10px; position: relative; display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+                    <div
+                        style="width: 200px; height: 20px; background: #222; position: absolute; bottom: 0; border-radius: 10px;">
+                    </div>
+                    <svg width="50" height="50" style="margin-bottom: 10px;">
+                        <use href="#icon-suezo" />
+                    </svg>
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Dev Cap</div>
+                <div class="product-price">€24.99</div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <svg width="24" height="24">
+                    <use href="#icon-suezo" />
+                </svg>
+                <span>ChestUp</span>
+            </div>
+            <p>&copy; 2025 ChestUp Inc. Suezo is watching.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

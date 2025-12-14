@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Showroom | ChestUp Prototyping</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="design-system.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .showroom-hero {
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .variant-viewer {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        @media (min-width: 1024px) {
+            .variant-viewer {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .variant-card {
+            background: var(--color-neutral-900);
+            border: 1px solid var(--color-neutral-800);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .variant-image-container {
+            aspect-ratio: 1;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .variant-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-out);
+        }
+
+        .variant-card:hover .variant-image {
+            transform: scale(1.05);
+        }
+
+        .variant-details {
+            padding: 32px;
+        }
+
+        .variant-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .tag-industrial {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .tag-eco {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .specs-list {
+            margin-top: 20px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--color-neutral-800);
+            font-size: 14px;
+        }
+
+        .spec-label {
+            color: var(--color-neutral-400);
+        }
+
+        .spec-value {
+            font-weight: 600;
+        }
+
+        /* Material Notes */
+        .technical-notes {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 60px;
+        }
+
+        .note-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .note-card h4 {
+            color: var(--color-primary-purple);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">
+                    <span class="logo-text gradient-text">ChestUp</span>
+                    <span
+                        style="font-size: 12px; background: #333; padding: 2px 6px; border-radius: 4px; margin-left: 10px;">PROTOTYPE
+                        LAB</span>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Back to Site</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="showroom-hero">
+            <span class="eyebrow">Validazione Estetica</span>
+            <h1>Design Variants: <span class="gradient-text">80x80x80cm</span></h1>
+            <p style="max-width: 600px; margin: 20px auto; color: var(--color-neutral-400);">
+                Valutazione di stili e materiali per il prototipo v1.
+                Analisi dell'impatto visivo del modulo "Suezo Eye" (Display 4.0") su diverse finiture.
+            </p>
+        </section>
+
+        <div class="variant-viewer">
+            <!-- Variation A: Industrial -->
+            <div class="variant-card">
+                <div class="variant-image-container">
+                    <img src="assets/variant-industrial.png" alt="Industrial Variant" class="variant-image">
+
+                    <!-- Overlay Tech Specs -->
+                    <div
+                        style="position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size: 10px; color: #888;">DIMENSIONS</div>
+                        <div style="font-weight: bold;">800 x 800 x 800 mm</div>
+                    </div>
+                </div>
+                <div class="variant-details">
+                    <span class="variant-tag tag-industrial">ChestUp ENTERPRISE</span>
+                    <h3>Industrial Armor (Alluminio)</h3>
+                    <p style="color: var(--color-neutral-400); margin-bottom: 20px;">
+                        Design robusto pensato per installazioni outdoor, condomini e logistica.
+                        Rinforzi angolari e finitura spazzolata.
+                    </p>
+
+                    <div class="specs-list">
+                        <div class="spec-item">
+                            <span class="spec-label">Materiale Esterno</span>
+                            <span class="spec-value">Dibond Spazzolato 3mm</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Struttura</span>
+                            <span class="spec-value">V-Slot 2040 Alluminio</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Display Module</span>
+                            <span class="spec-value">Housing ASA ("Space Grey")</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Target</span>
+                            <span class="spec-value">B2B / Outdoor / Public</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Variation B: Eco-Wood -->
+            <div class="variant-card">
+                <div class="variant-image-container">
+                    <img src="assets/variant-ecowood.png" alt="Eco-Wood Variant" class="variant-image">
+
+                    <!-- Overlay Tech Specs -->
+                    <div
+                        style="position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size: 10px; color: #888;">DIMENSIONS</div>
+                        <div style="font-weight: bold;">800 x 800 x 800 mm</div>
+                    </div>
+                </div>
+                <div class="variant-details">
+                    <span class="variant-tag tag-eco">ChestUp HOME</span>
+                    <h3>Eco-Minimalist (Legno/Composito)</h3>
+                    <p style="color: var(--color-neutral-400); margin-bottom: 20px;">
+                        Estetica "Furniture" per portici privati e interni.
+                        Il display è integrato in una fascia in vetro nero per un look stealth.
+                    </p>
+
+                    <div class="specs-list">
+                        <div class="spec-item">
+                            <span class="spec-label">Materiale Esterno</span>
+                            <span class="spec-value">Pannello Finto Legno / HPL</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Struttura</span>
+                            <span class="spec-value">V-Slot 2020 + MDF Core</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Display Module</span>
+                            <span class="spec-value">Dietro vetro fumè (Hidden)</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Target</span>
+                            <span class="spec-value">B2C / Indoor / Luxury</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Variation C: Tactical (Peli Style) -->
+            <div class="variant-card">
+                <div class="variant-image-container" style="background: #1a1a1a;">
+                    <!-- CSS Placeholder for Peli Case until generation is available -->
+                    <div style="text-align: center; opacity: 0.7;">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="1">
+                            <rect x="2" y="2" width="20" height="20" rx="3" />
+                            <line x1="2" y1="8" x2="22" y2="8" />
+                            <line x1="2" y1="16" x2="22" y2="16" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <div style="margin-top: 10px; font-family: monospace; color: #4a5568;">RENDER_PENDING</div>
+                    </div>
+
+                    <!-- Overlay Tech Specs -->
+                    <div
+                        style="position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size: 10px; color: #888;">ISP2 STANDARD</div>
+                        <div style="font-weight: bold;">MIL-STD-810G</div>
+                    </div>
+                </div>
+                <div class="variant-details">
+                    <span class="variant-tag"
+                        style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">TACTICAL</span>
+                    <h3>Peli-Style Rotomolded (ISP2)</h3>
+                    <p style="color: var(--color-neutral-400); margin-bottom: 20px;">
+                        Ispirato ai case Peli™ ISP2 (Inter-Stacking Pattern). Polimero rotostampato indistruttibile.
+                        Nervature strutturali per impilabilità ottimizzata (10x10 pattern).
+                    </p>
+
+                    <div class="specs-list">
+                        <div class="spec-item">
+                            <span class="spec-label">Materiale</span>
+                            <span class="spec-value">Polietilene (PE) Rotostampato</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Struttura</span>
+                            <span class="spec-value">Monoscocca Anti-Shock</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Display Integration</span>
+                            <span class="spec-value">Recessed with Rubber Bumpers</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Target</span>
+                            <span class="spec-value">Military / Logistics / Extreme</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Variation D: Flight Case -->
+            <div class="variant-card">
+                <div class="variant-image-container" style="background: #0f0f0f;">
+                    <!-- CSS Placeholder -->
+                    <div style="text-align: center; opacity: 0.7;">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="1">
+                            <rect x="2" y="2" width="20" height="20" rx="1" />
+                            <circle cx="3" cy="3" r="1" fill="#718096" />
+                            <circle cx="21" cy="3" r="1" fill="#718096" />
+                            <circle cx="3" cy="21" r="1" fill="#718096" />
+                            <circle cx="21" cy="21" r="1" fill="#718096" />
+                            <rect x="10" y="10" width="4" height="4" />
+                        </svg>
+                        <div style="margin-top: 10px; font-family: monospace; color: #718096;">RENDER_PENDING</div>
+                    </div>
+                </div>
+                <div class="variant-details">
+                    <span class="variant-tag"
+                        style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3);">PRO
+                        TOUR</span>
+                    <h3>Flight Case Touring</h3>
+                    <p style="color: var(--color-neutral-400); margin-bottom: 20px;">
+                        Standard touring internazionale. Laminato Hex-Grid nero con profili in alluminio rivettati
+                        e angolari a sfera (Ball Corners) per massima protezione negli spostamenti.
+                    </p>
+
+                    <div class="specs-list">
+                        <div class="spec-item">
+                            <span class="spec-label">Materiale</span>
+                            <span class="spec-value">9mm Plywood + Hex Laminate</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Angolari</span>
+                            <span class="spec-value">Steel Ball Corners (Zincati)</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Chiusure</span>
+                            <span class="spec-value">Butterfly Latches (Incasso)</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Target</span>
+                            <span class="spec-value">Events / Rental / Moving</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Analysis Section -->
+        <div class="technical-notes">
+            <h2>Analisi Fattibilità Prototipo (BOM Optimization)</h2>
+            <div class="note-grid">
+                <div class="note-card">
+                    <h4>1. Ottimizzazione Costi</h4>
+                    <p style="color: var(--color-neutral-400); font-size: 14px; line-height: 1.6;">
+                        Per mantenere l'estetica industriale (Variante A) a basso costo, si consiglia l'uso di
+                        pannelli in <strong>Dibond</strong> (alluminio composito) su telaio V-Slot.
+                        Costo stimato: ~80€ vs 300€ dell'alluminio pieno fresato.
+                    </p>
+                </div>
+                <div class="note-card">
+                    <h4>2. Il "Suezo Eye" Display</h4>
+                    <p style="color: var(--color-neutral-400); font-size: 14px; line-height: 1.6;">
+                        L'occhio quadrato (60-80mm) può essere realizzato con un display <strong>LCD 4.0"
+                            (720x720)</strong>
+                        standard per domotica (Tuya/Sonoff panels), riducendo i costi R&D rispetto a display custom.
+                    </p>
+                </div>
+                <div class="note-card">
+                    <h4>3. Stampa 3D Parti Complesse</h4>
+                    <p style="color: var(--color-neutral-400); font-size: 14px; line-height: 1.6;">
+                        Angolari, housing del display e meccanismo lock devono essere stampati in
+                        <strong>ASA o PETG</strong> con riempimento 40%+ per garantire resistenza meccanica e UV
+                        senza stampi a iniezione.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
