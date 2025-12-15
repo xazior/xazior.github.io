@@ -1,0 +1,26 @@
+{
+  "name": "supernova-smart-locker-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for SuperNØva Smart Locker - Landing page and marketing site",
+  "main": "index.html",
+  "scripts": {
+    "serve": "python3 -m http.server 8000",
+    "serve:node": "npx http-server -p 8000 -o",
+    "build": "echo 'Static site - no build required'",
+    "audit": "npm audit",
+    "audit:fix": "npm audit fix",
+    "validate": "echo 'HTML validation would go here'"
+  },
+  "keywords": ["smart-locker", "iot", "landing-page", "hardware", "security"],
+  "author": "SuperNØva Team",
+  "license": "MIT",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
