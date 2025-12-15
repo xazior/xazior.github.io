@@ -4,494 +4,1176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naming Proposals | Brand Identity</title>
+    <title>Piattaforma Votazione Nomi</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="design-system.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .split-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-8);
-            margin-top: var(--space-12);
+        .voting-container {
+            min-height: 100vh;
+            padding: 20px;
+            background: var(--color-neutral-950);
         }
 
-        .section-separator {
-            grid-column: 1 / -1;
-            margin-top: var(--space-12);
-            padding-top: var(--space-8);
-            border-top: 1px dashed var(--color-neutral-800);
-            text-align: center;
-        }
-
-        @media (max-width: 968px) {
-            .split-section {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .naming-category {
-            padding: var(--space-8);
-            background: rgba(255, 255, 255, 0.02);
+        .voting-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
             border: 1px solid var(--color-neutral-800);
-            border-radius: var(--radius-2xl);
         }
 
-        .category-header {
-            text-align: center;
-            margin-bottom: var(--space-8);
-            padding-bottom: var(--space-6);
-            border-bottom: 1px solid var(--color-neutral-800);
+        .voting-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .category-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto var(--space-4);
+        .voting-user-badge {
+            background: var(--color-primary-purple);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--color-neutral-600);
+            color: var(--color-neutral-300);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: var(--color-neutral-800);
+            border-color: var(--color-neutral-500);
+        }
+
+        .login-container {
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
+            background: var(--color-neutral-950);
+        }
+
+        .login-form {
             background: rgba(255, 255, 255, 0.05);
-            font-size: 24px;
-        }
-
-        .name-card {
-            background: var(--color-neutral-900);
             border: 1px solid var(--color-neutral-800);
-            border-radius: var(--radius-xl);
-            padding: var(--space-6);
-            margin-bottom: var(--space-4);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            border-radius: var(--radius-2xl);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
         }
 
-        .name-card:hover {
-            border-color: var(--color-neutral-600);
-            transform: translateX(4px);
-            background: #111;
-        }
-
-        .name-title {
-            font-size: var(--text-2xl);
-            font-weight: 800;
-            margin-bottom: var(--space-2);
+        .login-form h1 {
             color: white;
-            letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
+            margin-bottom: 10px;
+            font-size: 28px;
         }
 
-        .name-tagline {
-            font-size: var(--text-sm);
+        .login-form p {
+            color: var(--color-neutral-400);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--color-neutral-300);
+            font-size: 14px;
             font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-neutral-700);
+            border-radius: 6px;
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-primary-purple);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-primary-purple);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #7c3aed;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--color-neutral-800);
+            padding-bottom: 0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: var(--color-neutral-500);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--color-neutral-300);
+        }
+
+        .tab.active {
             color: var(--color-primary-purple);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: var(--space-3);
+            border-bottom-color: var(--color-primary-purple);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
             display: block;
         }
 
-        .name-desc {
-            font-size: var(--text-sm);
-            color: var(--color-neutral-400);
-            line-height: 1.6;
-            margin-bottom: var(--space-4);
+        .proposals-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
         }
 
-        .name-meta {
+        .proposals-list {
             display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-3);
-            font-size: var(--text-xs);
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .proposal-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-neutral-800);
+            border-radius: var(--radius-xl);
+            padding: 20px;
+            transition: all 0.2s;
+        }
+
+        .proposal-card:hover {
+            border-color: var(--color-neutral-700);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .proposal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .proposal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .proposal-score {
+            background: var(--color-primary-purple);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .proposal-score.negative {
+            background: #ef4444;
+        }
+
+        .proposal-meta {
+            font-size: 12px;
             color: var(--color-neutral-500);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: var(--space-3);
+            margin-bottom: 10px;
+        }
+
+        .proposal-desc {
+            color: var(--color-neutral-300);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .proposal-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            background: var(--color-neutral-800);
+        }
+
+        .badge-new {
+            background: #10b981;
+            color: white;
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .voting-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
         .vote-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            flex: 1;
+            padding: 10px 12px;
             border: 1px solid var(--color-neutral-700);
             background: transparent;
-            color: var(--color-neutral-400);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: var(--color-neutral-300);
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .vote-btn:hover,
-        .vote-btn.active {
-            background: var(--color-primary-purple);
-            border-color: var(--color-primary-purple);
-            color: white;
+        .vote-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--color-neutral-600);
         }
 
-        .nerd-badge {
-            background: rgba(236, 72, 153, 0.2);
-            color: #f472b6;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .ita-badge {
-            background: rgba(16, 185, 129, 0.2);
+        .vote-btn.vote-yes {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
             color: #10b981;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
         }
 
-        .fusion-badge {
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+        .vote-btn.vote-no {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .vote-btn.vote-ignore {
+            background: rgba(107, 114, 128, 0.1);
+            border-color: var(--color-neutral-600);
+            color: var(--color-neutral-400);
+        }
+
+        .top-choice-btn {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-neutral-700);
+            background: transparent;
+            color: var(--color-neutral-400);
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .top-choice-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .top-choice-btn.active {
+            background: #fbbf24;
+            border-color: #fbbf24;
+            color: #000;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-neutral-800);
+            border-radius: var(--radius-xl);
+            padding: 20px;
+        }
+
+        .sidebar-title {
+            font-weight: 700;
             color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
+            margin-bottom: 12px;
+            font-size: 14px;
         }
 
-        /* Legal Risk Badges */
-        .risk-badge {
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-left: auto;
+        .top-choices-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .risk-low {
-            background: #22c55e;
-            color: #052e16;
+        .top-choice-item {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid #fbbf24;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            color: #fbbf24;
+            font-weight: 600;
         }
 
-        .risk-med {
-            background: #eab308;
-            color: #422006;
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .risk-high {
-            background: #f97316;
-            color: #431407;
+        .stats-item:last-child {
+            border-bottom: none;
+        }
+
+        .stats-label {
+            color: var(--color-neutral-400);
+        }
+
+        .stats-value {
+            color: white;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        .add-proposal-form {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-neutral-800);
+            border-radius: var(--radius-xl);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-group-voting {
+            margin-bottom: 15px;
+        }
+
+        .form-group-voting label {
+            display: block;
+            color: var(--color-neutral-300);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-group-voting input,
+        .form-group-voting textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-neutral-700);
+            border-radius: 6px;
+            color: white;
+            font-family: inherit;
+            font-size: 13px;
+        }
+
+        .form-group-voting textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-group-voting input:focus,
+        .form-group-voting textarea:focus {
+            outline: none;
+            border-color: var(--color-primary-purple);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .add-proposal-btn,
+        .save-votes-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-primary-purple);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .add-proposal-btn:hover,
+        .save-votes-btn:hover {
+            background: #7c3aed;
+        }
+
+        .add-proposal-btn:disabled,
+        .save-votes-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback-message {
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .feedback-message.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            color: #10b981;
+        }
+
+        .feedback-message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--color-neutral-400);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-neutral-700);
+            border-top-color: var(--color-primary-purple);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .proposals-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .voting-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .logout-btn {
+                align-self: flex-end;
+            }
         }
     </style>
 </head>
 
 <body>
-
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <a href="labs.html" class="nav-logo">
-                    <span class="logo-text">Labs</span>
-                    <span style="color: var(--color-neutral-500); margin: 0 8px;">/</span>
-                    <span style="font-size: 14px; color: var(--color-neutral-300);">Naming DB</span>
-                </a>
-                <a href="labs.html" class="nav-link">Back to Hub</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        <section class="labs-hero" style="padding-bottom: 40px;">
-            <span class="eyebrow" style="color: #10b981;">Complete Database</span>
-            <h1 class="hero-title">Naming <span class="gradient-text">Matrix</span></h1>
-            <p class="hero-description" style="max-width: 600px; margin: 0 auto;">
-                Database Completo. Include opzioni Nerd Culture (Mitigate), Italian Heritage e Fusion Concepts.
-            </p>
-        </section>
-
-        <!-- ========= PART 1: NERD CULTURE ========= -->
-        <h2 style="text-align: center; color: var(--color-neutral-500); margin-bottom: 20px;">Category A: Nerd Culture &
-            Sci-Fi</h2>
-
-        <div class="split-section">
-            <div class="naming-category">
-                <div class="category-header">
-                    <div class="category-icon" style="color: #60a5fa;">🏢</div>
-                    <h2 style="margin-bottom: 8px;">Hardware</h2>
+    <div id="loginView" class="login-container">
+        <div class="login-form">
+            <h1>Votazione Nomi</h1>
+            <p>Accedi per votare</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="userSelect">Utente</label>
+                    <select id="userSelect" required>
+                        <option value="">Seleziona utente...</option>
+                        <option value="Leo">Leo</option>
+                        <option value="Enri">Enri</option>
+                        <option value="Fane">Fane</option>
+                        <option value="Digio">Digio</option>
+                        <option value="Vince">Vince</option>
+                        <option value="Abu">Abu</option>
+                    </select>
                 </div>
-                <!-- 1 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Classic</span>
-                    <div class="name-title">Aegis Systems <span class="risk-badge risk-low">Low</span></div>
+                <div class="form-group">
+                    <label for="passwordInput">Password</label>
+                    <input type="password" id="passwordInput" required>
                 </div>
-                <!-- 2 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Net Tech</span>
-                    <div class="name-title">NEXO Guard <span class="risk-badge risk-med">Med</span></div>
-                </div>
-                <!-- 3 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Nordic</span>
-                    <div class="name-title">KIVU <span class="risk-badge risk-low">Safe</span></div>
-                </div>
-                <!-- 4 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Fantasy</span>
-                    <div class="name-title">MITHRIL <span class="risk-badge risk-med">Med</span></div>
-                </div>
-                <!-- 5 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Sci-Fi</span>
-                    <div class="name-title">MONOLITH <span class="risk-badge risk-low">Low</span></div>
-                </div>
-                <!-- 6 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Storage</span>
-                    <div class="name-title">TESSERACT <span class="risk-badge risk-med">Med</span></div>
-                </div>
-                <!-- 7 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Tech</span>
-                    <div class="name-title">CAPSULE <span class="risk-badge risk-low">Low</span></div>
-                </div>
-                <!-- 8 -->
-                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
-                        onclick="toggleVote(this)">+</button><span class="name-tagline">Eva 01</span>
-                    <div class="name-title">UNIT 01 <span class="risk-badge risk-low">Safe</span></div>
-                </div>
-                <!-- 9 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Myth</span>
-                    <div class="name-title">YGGDRASIL <span class="risk-badge risk-low">Low</span></div>
-                </div>
-                <!-- 10 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Giant</span>
-                    <div class="name-title">JAEGER <span class="risk-badge risk-med">Med</span></div>
-                </div>
-            </div>
-
-            <div class="naming-category">
-                <div class="category-header">
-                    <div class="category-icon" style="color: #a78bfa;">🤖</div>
-                    <h2 style="margin-bottom: 8px;">AI Mascotte</h2>
-                </div>
-                <!-- 1 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Watcher</span>
-                    <div class="name-title">ARGUS <span class="risk-badge risk-low">Safe</span></div>
-                </div>
-                <!-- 2 -->
-                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
-                        onclick="toggleVote(this)">+</button><span class="name-tagline">Tron</span>
-                    <div class="name-title">BIT <span class="risk-badge risk-low">Safe</span></div>
-                </div>
-                <!-- 3 -->
-                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
-                        onclick="toggleVote(this)">+</button><span class="name-tagline">3D</span>
-                    <div class="name-title">VOXEL <span class="risk-badge risk-low">Safe</span></div>
-                </div>
-                <!-- 4 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Soul</span>
-                    <div class="name-title">AL <span class="risk-badge risk-low">Low</span></div>
-                </div>
-                <!-- 5 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Guide</span>
-                    <div class="name-title">NAVI <span class="risk-badge risk-med">Med</span></div>
-                </div>
-                <!-- 6 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Tank</span>
-                    <div class="name-title">TACHI <span class="risk-badge risk-low">Low</span></div>
-                </div>
-                <!-- 7 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Anime</span>
-                    <div class="name-title">YUI <span class="risk-badge risk-med">Med</span></div>
-                </div>
-                <!-- 8 -->
-                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
-                        onclick="toggleVote(this)">+</button><span class="name-tagline">Greek</span>
-                    <div class="name-title">KUBOS <span class="risk-badge risk-low">Safe</span></div>
-                </div>
-                <!-- 9 -->
-                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
-                        onclick="toggleVote(this)">+</button><span class="name-tagline">Eva</span>
-                    <div class="name-title">MAGI <span class="risk-badge risk-med">Med</span></div>
-                </div>
-                <!-- 10 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Classic</span>
-                    <div class="name-title">HAL <span class="risk-badge risk-med">Med</span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ========= PART 2: LATINO / ITALIAN ========= -->
-        <div class="section-separator">
-            <span class="eyebrow" style="color: #10b981; font-size: 14px;">Integrazione Heritage</span>
-            <h2 style="font-size: 24px;">Category B: Italian Heritage & Latin Roots</h2>
-        </div>
-
-        <div class="split-section" style="margin-top: 20px;">
-            <div class="naming-category">
-                <div class="category-header">
-                    <div class="category-icon" style="color: #10b981;">🏛️</div>
-                    <h2 style="margin-bottom: 8px;">L'Azienda (Latin)</h2>
-                </div>
-                <!-- 1 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">To Protect <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">SERVAT</div>
-                    <p class="name-desc">Dal latino "Servare". "Servat Domum".</p>
-                </div>
-                <!-- 2 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Closed <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">ARCANA</div>
-                    <p class="name-desc">I segreti custoditi.</p>
-                </div>
-                <!-- 3 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Shield <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">SCUTUM</div>
-                    <p class="name-desc">Lo scudo romano.</p>
-                </div>
-                <!-- 4 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Vault <span class="ita-badge">Italiano</span></span>
-                    <div class="name-title">FORZIERE</div>
-                    <p class="name-desc">Il baule del tesoro. Pirati e valore.</p>
-                </div>
-                <!-- 5 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Iron <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">FERRUM</div>
-                    <p class="name-desc">Elementare. Solido. Semplice.</p>
-                </div>
-                <!-- 6 - SuperNØva -->
-                <div class="name-card" style="border-color: #8b5cf6;"><button class="vote-btn"
-                        onclick="toggleVote(this)">+</button><span class="name-tagline">Modern <span class="nerd-badge">Recommended</span></span>
-                    <div class="name-title">SuperNØva</div>
-                    <p class="name-desc">Sistema di naming esistente. Ricerca, brand identity e mercato già sviluppati.</p>
-                </div>
-            </div>
-            <div class="naming-category">
-                <div class="category-header">
-                    <div class="category-icon" style="color: #10b981;">👁️</div>
-                    <h2 style="margin-bottom: 8px;">L'AI (Il Genio)</h2>
-                </div>
-                <!-- 1 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Genius <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">GENIO</div>
-                    <p class="name-desc">Genius Loci. Spirito del Luogo.</p>
-                </div>
-                <!-- 2 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">See <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">MIRA</div>
-                    <p class="name-desc">"Mirare", guardare.</p>
-                </div>
-                <!-- 3 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Faithful <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">FIDO</div>
-                    <p class="name-desc">"Fidus". L'assistente fedele.</p>
-                </div>
-                <!-- 4 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Voice <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">VOCE</div>
-                    <p class="name-desc">Semplice. La Voce.</p>
-                </div>
-                <!-- 5 -->
-                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
-                        class="name-tagline">Guardian <span class="ita-badge">Latino</span></span>
-                    <div class="name-title">CUSTOS</div>
-                    <p class="name-desc">Il custode.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ========= PART 3: CONCEPT FUSION (NEW) ========= -->
-        <div class="section-separator">
-            <span class="eyebrow" style="color: #8b5cf6; font-size: 14px;">Il Nesso Yggdrasil-Latino</span>
-            <h2 style="font-size: 24px;">Category C: Concept Fusion (Roots & Axis)</h2>
-            <p style="color: var(--color-neutral-400);">
-                Fusione tra il mito nordico dell'Albero Mondo (Yggdrasil) e la lingua Latina.<br>
-                <em>"L'albero che connette tutto."</em>
-            </p>
-        </div>
-
-        <div class="split-section" style="margin-top: 20px; grid-template-columns: repeat(3, 1fr);">
-
-            <!-- OPTION 1 -->
-            <div class="name-card" style="border: 1px solid #8b5cf6;">
-                <button class="vote-btn" onclick="toggleVote(this)">+</button>
-                <span class="name-tagline">World Axis <span class="fusion-badge">Fusion</span></span>
-                <div class="name-title">AXIS</div>
-                <p class="name-desc">
-                    L'<strong>Axis Mundi</strong> (Latino) è l'asse attorno a cui ruota il mondo, proprio come
-                    Yggdrasil.
-                    Nome solido, geometrico, perfetto per l'Engineering.
+                <button type="submit" class="login-btn">Accedi</button>
+                <p style="color: var(--color-neutral-500); font-size: 11px; margin-top: 15px; text-align: center;">
+                    Password: tvrvlli2025
                 </p>
-            </div>
-
-            <!-- OPTION 2 -->
-            <div class="name-card" style="border: 1px solid #8b5cf6;">
-                <button class="vote-btn" onclick="toggleVote(this)">+</button>
-                <span class="name-tagline">The Tree <span class="fusion-badge">Fusion</span></span>
-                <div class="name-title">ARBOR</div>
-                <p class="name-desc">
-                    "Albero" in Latino. L'<strong>Arbor Vitae</strong> (Albero della Vita) è il corrispettivo diretto di
-                    Yggdrasil.
-                    Minimalista, biologico, evoca crescita e rete.
-                </p>
-            </div>
-
-            <!-- OPTION 3 -->
-            <div class="name-card" style="border: 1px solid #8b5cf6;">
-                <button class="vote-btn" onclick="toggleVote(this)">+</button>
-                <span class="name-tagline">The Root <span class="fusion-badge">Fusion</span></span>
-                <div class="name-title">RADIX</div>
-                <p class="name-desc">
-                    "Radice" in Latino. Yggdrasil è definito dalle sue radici che connettono i mondi.
-                    Il locker è la <strong>Radice</strong> della Smart Home. Suono "Cyberpunk".
-                </p>
-            </div>
-
+            </form>
         </div>
-
     </div>
 
-    <br><br><br>
-    <footer class="footer">
-        <div class="container text-center">
-            <p style="color: var(--color-neutral-500); font-size: 12px;">Internal Brand Document. Final Revision.</p>
+    <div id="votingView" class="voting-container" style="display: none;">
+        <div class="container">
+            <div class="voting-header">
+                <div>
+                    <h1 style="color: white; margin: 0; font-size: 24px;">Piattaforma Votazione Nomi</h1>
+                </div>
+                <div class="voting-user-info">
+                    <div class="voting-user-badge" id="userBadge">Leo</div>
+                    <button class="logout-btn" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" data-category="azienda">Azienda</button>
+                <button class="tab" data-category="prodotto">Prodotti</button>
+                <button class="tab" data-category="ai">AI</button>
+            </div>
+
+            <!-- AZIENDA TAB -->
+            <div id="azienda" class="tab-content active">
+                <div class="add-proposal-form">
+                    <h3 style="color: white; margin-top: 0;">Aggiungi Proposta</h3>
+                    <form class="add-proposal-form-inner" data-category="azienda">
+                        <div class="form-group-voting">
+                            <label>Nome</label>
+                            <input type="text" class="proposal-name" placeholder="Nome della proposta" required>
+                        </div>
+                        <div class="form-group-voting">
+                            <label>Descrizione</label>
+                            <textarea class="proposal-desc-input" placeholder="Descrizione della proposta"
+                                required></textarea>
+                        </div>
+                        <div class="form-group-voting">
+                            <label>Immagine (opzionale)</label>
+                            <input type="file" class="proposal-image-input" accept="image/*">
+                        </div>
+                        <div class="feedback-message" style="display: none;"></div>
+                        <button type="submit" class="add-proposal-btn">Proponi</button>
+                    </form>
+                </div>
+
+                <div class="proposals-grid">
+                    <div class="proposals-list" id="azienda-proposals"></div>
+                    <div class="sidebar">
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Le tue scelte TOP 3</div>
+                            <div class="top-choices-list" id="azienda-top-choices"></div>
+                            <div class="feedback-message" style="display: none; margin-top: 12px;"></div>
+                            <button class="save-votes-btn" style="margin-top: 12px;">Salva Voti</button>
+                        </div>
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Statistiche</div>
+                            <div class="stats-item">
+                                <span class="stats-label">Totale proposte</span>
+                                <span class="stats-value" id="azienda-total-proposals">0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Punteggio medio</span>
+                                <span class="stats-value" id="azienda-avg-score">0.0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Top proposta</span>
+                                <span class="stats-value" id="azienda-top-proposal" style="font-size: 11px;">-</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Top 5 Grafici</div>
+                            <div class="chart-container">
+                                <canvas id="azienda-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODOTTI TAB -->
+            <div id="prodotto" class="tab-content">
+                <div class="add-proposal-form">
+                    <h3 style="color: white; margin-top: 0;">Aggiungi Proposta</h3>
+                    <form class="add-proposal-form-inner" data-category="prodotto">
+                        <div class="form-group-voting">
+                            <label>Nome</label>
+                            <input type="text" class="proposal-name" placeholder="Nome della proposta" required>
+                        </div>
+                        <div class="form-group-voting">
+                            <label>Descrizione</label>
+                            <textarea class="proposal-desc-input" placeholder="Descrizione della proposta"
+                                required></textarea>
+                        </div>
+                        <div class="form-group-voting">
+                            <label>Immagine (opzionale)</label>
+                            <input type="file" class="proposal-image-input" accept="image/*">
+                        </div>
+                        <div class="feedback-message" style="display: none;"></div>
+                        <button type="submit" class="add-proposal-btn">Proponi</button>
+                    </form>
+                </div>
+
+                <div class="proposals-grid">
+                    <div class="proposals-list" id="prodotto-proposals"></div>
+                    <div class="sidebar">
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Le tue scelte TOP 3</div>
+                            <div class="top-choices-list" id="prodotto-top-choices"></div>
+                            <div class="feedback-message" style="display: none; margin-top: 12px;"></div>
+                            <button class="save-votes-btn" style="margin-top: 12px;">Salva Voti</button>
+                        </div>
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Statistiche</div>
+                            <div class="stats-item">
+                                <span class="stats-label">Totale proposte</span>
+                                <span class="stats-value" id="prodotto-total-proposals">0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Punteggio medio</span>
+                                <span class="stats-value" id="prodotto-avg-score">0.0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Top proposta</span>
+                                <span class="stats-value" id="prodotto-top-proposal" style="font-size: 11px;">-</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Top 5 Grafici</div>
+                            <div class="chart-container">
+                                <canvas id="prodotto-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI TAB -->
+            <div id="ai" class="tab-content">
+                <div class="add-proposal-form">
+                    <h3 style="color: white; margin-top: 0;">Aggiungi Proposta</h3>
+                    <form class="add-proposal-form-inner" data-category="ai">
+                        <div class="form-group-voting">
+                            <label>Nome</label>
+                            <input type="text" class="proposal-name" placeholder="Nome della proposta" required>
+                        </div>
+                        <div class="form-group-voting">
+                            <label>Descrizione</label>
+                            <textarea class="proposal-desc-input" placeholder="Descrizione della proposta"
+                                required></textarea>
+                        </div>
+                        <div class="form-group-voting">
+                            <label>Immagine (opzionale)</label>
+                            <input type="file" class="proposal-image-input" accept="image/*">
+                        </div>
+                        <div class="feedback-message" style="display: none;"></div>
+                        <button type="submit" class="add-proposal-btn">Proponi</button>
+                    </form>
+                </div>
+
+                <div class="proposals-grid">
+                    <div class="proposals-list" id="ai-proposals"></div>
+                    <div class="sidebar">
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Le tue scelte TOP 3</div>
+                            <div class="top-choices-list" id="ai-top-choices"></div>
+                            <div class="feedback-message" style="display: none; margin-top: 12px;"></div>
+                            <button class="save-votes-btn" style="margin-top: 12px;">Salva Voti</button>
+                        </div>
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Statistiche</div>
+                            <div class="stats-item">
+                                <span class="stats-label">Totale proposte</span>
+                                <span class="stats-value" id="ai-total-proposals">0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Punteggio medio</span>
+                                <span class="stats-value" id="ai-avg-score">0.0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Top proposta</span>
+                                <span class="stats-value" id="ai-top-proposal" style="font-size: 11px;">-</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-section">
+                            <div class="sidebar-title">Top 5 Grafici</div>
+                            <div class="chart-container">
+                                <canvas id="ai-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
 
     <script>
-        function toggleVote(btn) {
-            btn.classList.toggle('active');
-            if (btn.classList.contains('active')) {
-                btn.innerText = '✓';
-            } else {
-                btn.innerText = '+';
+        // ============ STATE & CONFIG ============
+        const API_BASE = 'http://localhost:3000/api/voting';
+        const VALID_USERS = ['Leo', 'Enri', 'Fane', 'Digio', 'Vince', 'Abu'];
+        const CORRECT_PASSWORD = 'tvrvlli2025';
+        const CATEGORIES = ['azienda', 'prodotto', 'ai'];
+
+        let state = {
+            currentUser: null,
+            currentCategory: 'azienda',
+            proposals: {},
+            userVotes: {},
+            topChoices: {},
+            stats: {},
+            charts: {}
+        };
+
+        // ============ DOM ELEMENTS ============
+        const loginView = document.getElementById('loginView');
+        const votingView = document.getElementById('votingView');
+        const loginForm = document.getElementById('loginForm');
+        const userBadge = document.getElementById('userBadge');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // ============ AUTHENTICATION ============
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = document.getElementById('userSelect').value;
+            const password = document.getElementById('passwordInput').value;
+
+            if (!user || !password) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user, password })
+                });
+
+                if (!response.ok) {
+                    alert('Credenziali non valide');
+                    return;
+                }
+
+                const data = await response.json();
+                state.currentUser = data.user;
+                localStorage.setItem('votingUser', state.currentUser);
+                localStorage.setItem('votingSession', data.sessionId);
+
+                showVotingView();
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Errore di accesso');
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await fetch(`${API_BASE}/auth/logout`, { method: 'POST' });
+                state.currentUser = null;
+                localStorage.removeItem('votingUser');
+                localStorage.removeItem('votingSession');
+                loginForm.reset();
+                showLoginView();
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        });
+
+        // ============ VIEW SWITCHING ============
+        function showLoginView() {
+            loginView.style.display = 'flex';
+            votingView.style.display = 'none';
+        }
+
+        function showVotingView() {
+            loginView.style.display = 'none';
+            votingView.style.display = 'block';
+            userBadge.textContent = state.currentUser;
+
+            CATEGORIES.forEach(cat => {
+                loadProposals(cat);
+                loadStats(cat);
+            });
+        }
+
+        // ============ LOAD PROPOSALS ============
+        async function loadProposals(category) {
+            try {
+                const response = await fetch(
+                    `${API_BASE}/categories/${category}/proposals`,
+                    { headers: { 'X-User': state.currentUser } }
+                );
+
+                if (!response.ok) throw new Error('Failed to load proposals');
+
+                const data = await response.json();
+                state.proposals[category] = data.proposals;
+                state.userVotes[category] = {};
+                state.topChoices[category] = [];
+
+                data.proposals.forEach(p => {
+                    state.userVotes[category][p.id] = p.userVote;
+                    if (p.userVote.isTopChoice) {
+                        state.topChoices[category].push(p.id);
+                    }
+                });
+
+                renderProposals(category);
+                renderTopChoices(category);
+            } catch (error) {
+                console.error(`Error loading proposals for ${category}:`, error);
             }
         }
+
+        // ============ RENDER PROPOSALS ============
+        function renderProposals(category) {
+            const container = document.getElementById(`${category}-proposals`);
+            const proposals = state.proposals[category] || [];
+
+            container.innerHTML = proposals.map(p => {
+                const currentVote = state.userVotes[category]?.[p.id];
+                const isTopChoice = state.topChoices[category].includes(p.id);
+                const score = p.totalScore;
+                const scoreClass = score < 0 ? 'negative' : '';
+
+                return `
+                    <div class="proposal-card" data-id="${p.id}">
+                        <div class="proposal-header">
+                            <div>
+                                <div class="proposal-title">
+                                    ${p.name}
+                                    ${p.isNew ? '<span class="badge-new">NUOVO</span>' : ''}
+                                </div>
+                                <div class="proposal-meta">
+                                    Proposto da <strong>${p.createdBy}</strong> il ${new Date(p.createdAt).toLocaleDateString('it-IT')}
+                                </div>
+                            </div>
+                            <span class="proposal-score ${scoreClass}">${score > 0 ? '+' : ''}${score}</span>
+                        </div>
+
+                        ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" class="proposal-image">` : ''}
+
+                        <div class="proposal-desc">${p.description}</div>
+
+                        <div class="voting-controls">
+                            <button class="vote-btn ${currentVote?.vote === 'yes' ? 'vote-yes' : ''}" 
+                                onclick="castVote('${category}', '${p.id}', 'yes')">
+                                ✓ Si
+                            </button>
+                            <button class="vote-btn ${currentVote?.vote === 'no' ? 'vote-no' : ''}" 
+                                onclick="castVote('${category}', '${p.id}', 'no')">
+                                ✗ No
+                            </button>
+                            <button class="vote-btn ${currentVote?.vote === 'ignore' ? 'vote-ignore' : ''}" 
+                                onclick="castVote('${category}', '${p.id}', 'ignore')">
+                                — Ignora
+                            </button>
+                            <button class="top-choice-btn ${isTopChoice ? 'active' : ''}" 
+                                onclick="toggleTopChoice('${category}', '${p.id}')">
+                                ★
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============ CAST VOTE ============
+        async function castVote(category, proposalId, vote) {
+            try {
+                const isTopChoice = state.topChoices[category].includes(proposalId);
+
+                const response = await fetch(
+                    `${API_BASE}/categories/${category}/vote`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-User': state.currentUser
+                        },
+                        body: JSON.stringify({
+                            user: state.currentUser,
+                            proposalId,
+                            vote,
+                            isTopChoice
+                        })
+                    }
+                );
+
+                if (!response.ok) throw new Error('Failed to cast vote');
+
+                await loadProposals(category);
+                await loadStats(category);
+            } catch (error) {
+                console.error('Error casting vote:', error);
+            }
+        }
+
+        // ============ TOGGLE TOP CHOICE ============
+        async function toggleTopChoice(category, proposalId) {
+            const topChoices = state.topChoices[category];
+            const index = topChoices.indexOf(proposalId);
+            const isCurrentlyTop = index >= 0;
+
+            if (isCurrentlyTop) {
+                topChoices.splice(index, 1);
+            } else {
+                if (topChoices.length >= 3) {
+                    topChoices.shift();
+                }
+                topChoices.push(proposalId);
+            }
+
+            const currentVote = state.userVotes[category][proposalId];
+            const voteValue = currentVote?.vote || 'ignore';
+
+            try {
+                await castVote(category, proposalId, voteValue);
+            } catch (error) {
+                console.error('Error toggling top choice:', error);
+            }
+        }
+
+        // ============ LOAD STATS ============
+        async function loadStats(category) {
+            try {
+                const response = await fetch(
+                    `${API_BASE}/categories/${category}/stats`,
+                    { headers: { 'X-User': state.currentUser } }
+                );
+
+                if (!response.ok) throw new Error('Failed to load stats');
+
+                const data = await response.json();
+                state.stats[category] = data.stats;
+
+                renderStats(category);
+                renderChart(category);
+            } catch (error) {
+                console.error(`Error loading stats for ${category}:`, error);
+            }
+        }
+
+        // ============ RENDER STATS ============
+        function renderStats(category) {
+            const stats = state.stats[category];
+            if (!stats) return;
+
+            document.getElementById(`${category}-total-proposals`).textContent = stats.totalProposals;
+            document.getElementById(`${category}-avg-score`).textContent = stats.averageScore;
+            document.getElementById(`${category}-top-proposal`).textContent =
+                stats.topProposal ? stats.topProposal.name : '-';
+        }
+
+        // ============ RENDER CHART ============
+        function renderChart(category) {
+            const stats = state.stats[category];
+            if (!stats || !stats.top5 || stats.top5.length === 0) return;
+
+            const ctx = document.getElementById(`${category}-chart`);
+            if (!ctx) return;
+
+            if (state.charts[category]) {
+                state.charts[category].destroy();
+            }
+
+            state.charts[category] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: stats.top5.map(p => p.name.substring(0, 15)),
+                    datasets: [{
+                        label: 'Punti',
+                        data: stats.top5.map(p => p.score),
+                        backgroundColor: '#8b5cf6',
+                        borderColor: '#7c3aed',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `Punti: ${context.parsed.x}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: 'rgba(255, 255, 255, 0.6)' }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: 'rgba(255, 255, 255, 0.6)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ============ RENDER TOP CHOICES ============
+        function renderTopChoices(category) {
+            const container = document.getElementById(`${category}-top-choices`);
+            const topChoiceIds = state.topChoices[category];
+            const proposals = state.proposals[category] || [];
+
+            if (topChoiceIds.length === 0) {
+                container.innerHTML = '<p style="color: var(--color-neutral-500); font-size: 12px;">Seleziona fino a 3 proposte come TOP choice</p>';
+                return;
+            }
+
+            container.innerHTML = topChoiceIds.map(id => {
+                const proposal = proposals.find(p => p.id === id);
+                return proposal
+                    ? `<div class="top-choice-item">${proposal.name}</div>`
+                    : '';
+            }).join('');
+        }
+
+        // ============ ADD PROPOSAL ============
+        document.querySelectorAll('.add-proposal-form-inner').forEach(form => {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const category = form.dataset.category;
+                const name = form.querySelector('.proposal-name').value;
+                const description = form.querySelector('.proposal-desc-input').value;
+                const imageInput = form.querySelector('.proposal-image-input');
+                const feedbackEl = form.querySelector('.feedback-message');
+
+                if (!name || !description) {
+                    feedbackEl.textContent = 'Nome e descrizione sono obbligatori';
+                    feedbackEl.className = 'feedback-message error';
+                    return;
+                }
+
+                try {
+                    const formData = new FormData();
+                    formData.append('user', state.currentUser);
+                    formData.append('name', name);
+                    formData.append('description', description);
+
+                    if (imageInput.files.length > 0) {
+                        formData.append('image', imageInput.files[0]);
+                    }
+
+                    const response = await fetch(
+                        `${API_BASE}/categories/${category}/proposal`,
+                        {
+                            method: 'POST',
+                            headers: { 'X-User': state.currentUser },
+                            body: formData
+                        }
+                    );
+
+                    if (!response.ok) throw new Error('Failed to add proposal');
+
+                    feedbackEl.textContent = 'Proposta aggiunta con successo!';
+                    feedbackEl.className = 'feedback-message success';
+
+                    form.reset();
+                    setTimeout(() => {
+                        feedbackEl.className = 'feedback-message';
+                    }, 3000);
+
+                    await loadProposals(category);
+                    await loadStats(category);
+                } catch (error) {
+                    console.error('Error adding proposal:', error);
+                    feedbackEl.textContent = 'Errore durante l\'aggiunta della proposta';
+                    feedbackEl.className = 'feedback-message error';
+                }
+            });
+        });
+
+        // ============ SAVE VOTES ============
+        document.querySelectorAll('.save-votes-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const category = e.target.closest('.sidebar-section').parentElement.parentElement.id;
+                const feedbackEl = e.target.closest('.sidebar-section').querySelector('.feedback-message');
+
+                feedbackEl.textContent = 'Voti salvati!';
+                feedbackEl.className = 'feedback-message success';
+
+                setTimeout(() => {
+                    feedbackEl.className = 'feedback-message';
+                }, 2000);
+            });
+        });
+
+        // ============ TAB SWITCHING ============
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const category = tab.dataset.category;
+
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                document.getElementById(category).classList.add('active');
+
+                state.currentCategory = category;
+            });
+        });
+
+        // ============ INITIALIZATION ============
+        window.addEventListener('load', () => {
+            const savedUser = localStorage.getItem('votingUser');
+            const savedSession = localStorage.getItem('votingSession');
+
+            if (savedUser && savedSession) {
+                state.currentUser = savedUser;
+                showVotingView();
+            } else {
+                showLoginView();
+            }
+        });
     </script>
 </body>
 
