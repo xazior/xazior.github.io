@@ -81,6 +81,30 @@ createdb supernova_db
 psql supernova_db < database/schema.sql
 ```
 
+## 🌐 GitHub Pages Deployment
+
+La landing page è automaticamente deployata a GitHub Pages tramite GitHub Actions.
+
+**URL**: [tvrvlli.com](https://tvrvlli.com)
+
+### Come Funziona
+- Ogni push su `main` che modifica il contenuto di `/frontend` triggera il workflow
+- Il workflow copia la cartella `frontend` su `gh-pages`
+- GitHub Pages automaticamente serve i file da `gh-pages`
+
+### Configurazione
+- `_config.yml`: Configura Jekyll e esclude cartelle non necessarie
+- `.nojekyll`: Dice a GitHub di servire i file statici senza processare con Jekyll
+- `.github/workflows/deploy-pages.yml`: Workflow GitHub Actions per il deploy automatico
+
+### Verifica Locale
+```bash
+# Installa un server locale per testare
+cd frontend
+npx serve .
+# Apri http://localhost:3000
+```
+
 ## 📋 Funzionalità
 
 ### Landing Page

@@ -1,0 +1,26 @@
+# GitHub Pages Configuration for SuperNØva Smart Locker
+# This configuration tells Jekyll to skip processing and simply serve static files
+
+# Skip Jekyll processing entirely - serve as static files
+jekyll: false
+
+# Exclude non-essential directories and files
+exclude:
+  - node_modules
+  - backend
+  - webapp
+  - database
+  - .git
+  - .gitignore
+  - README.md
+  - CNAME
+  - docs
+
+# Ensure CSS is not minified
+sass:
+  style: expanded
+
+# GitHub Pages settings
+github:
+  pages_hostname: github.com
+  is_project_page: false
