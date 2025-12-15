@@ -18,6 +18,7 @@ const devicesRoutes = require('./routes/devices');
 const locationsRoutes = require('./routes/locations');
 const accessRoutes = require('./routes/access');
 const logsRoutes = require('./routes/logs');
+const votingRoutes = require('./routes/voting');
 
 // Import middleware
 const { authenticateToken } = require('./middleware/auth');
@@ -104,6 +105,7 @@ app.use('/api/v1/devices', authenticateToken, devicesRoutes);
 app.use('/api/v1/locations', authenticateToken, locationsRoutes);
 app.use('/api/v1/access', authenticateToken, accessRoutes);
 app.use('/api/v1/logs', authenticateToken, logsRoutes);
+app.use('/api/voting', votingRoutes);
 
 // 404 handler
 app.use((req, res) => {

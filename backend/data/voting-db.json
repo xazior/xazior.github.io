@@ -1,0 +1,241 @@
+{
+  "proposals": [
+    {
+      "id": "prop-001",
+      "category": "azienda",
+      "name": "SuperNØva",
+      "description": "Sistema di naming esistente. Ricerca, brand identity e mercato già sviluppati.",
+      "imageUrl": null,
+      "createdBy": "Leo",
+      "createdAt": "2025-01-10T10:00:00Z",
+      "votes": [
+        {
+          "user": "Leo",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-12-15T19:16:07.611Z"
+        },
+        {
+          "user": "Enri",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-01-10T10:10:00Z"
+        },
+        {
+          "user": "Fane",
+          "vote": "yes",
+          "isTopChoice": false,
+          "date": "2025-01-10T10:15:00Z"
+        }
+      ]
+    },
+    {
+      "id": "prop-002",
+      "category": "azienda",
+      "name": "SERVAT",
+      "description": "Dal latino 'Servare'. 'Servat Domum'. To Protect.",
+      "imageUrl": null,
+      "createdBy": "Enri",
+      "createdAt": "2025-01-11T10:00:00Z",
+      "votes": [
+        {
+          "user": "Leo",
+          "vote": "yes",
+          "isTopChoice": false,
+          "date": "2025-01-11T10:05:00Z"
+        },
+        {
+          "user": "Digio",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-01-11T10:10:00Z"
+        }
+      ]
+    },
+    {
+      "id": "prop-003",
+      "category": "azienda",
+      "name": "ARCANA",
+      "description": "I segreti custoditi.",
+      "imageUrl": null,
+      "createdBy": "Fane",
+      "createdAt": "2025-01-11T11:00:00Z",
+      "votes": [
+        {
+          "user": "Vince",
+          "vote": "no",
+          "isTopChoice": false,
+          "date": "2025-01-11T11:05:00Z"
+        }
+      ]
+    },
+    {
+      "id": "prop-004",
+      "category": "prodotto",
+      "name": "Aegis Systems",
+      "description": "Classic Hardware Security",
+      "imageUrl": null,
+      "createdBy": "Leo",
+      "createdAt": "2025-01-10T14:00:00Z",
+      "votes": [
+        {
+          "user": "Leo",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-01-10T14:05:00Z"
+        },
+        {
+          "user": "Abu",
+          "vote": "yes",
+          "isTopChoice": false,
+          "date": "2025-01-10T14:10:00Z"
+        }
+      ]
+    },
+    {
+      "id": "prop-005",
+      "category": "prodotto",
+      "name": "NEXO Guard",
+      "description": "Net Tech Security Solution",
+      "imageUrl": null,
+      "createdBy": "Digio",
+      "createdAt": "2025-01-11T14:00:00Z",
+      "votes": [
+        {
+          "user": "Enri",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-01-11T14:05:00Z"
+        },
+        {
+          "user": "Fane",
+          "vote": "yes",
+          "isTopChoice": false,
+          "date": "2025-01-11T14:10:00Z"
+        },
+        {
+          "user": "Vince",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-01-11T14:15:00Z"
+        }
+      ]
+    },
+    {
+      "id": "prop-006",
+      "category": "ai",
+      "name": "GENIO",
+      "description": "Genius Loci. Spirito del Luogo.",
+      "imageUrl": null,
+      "createdBy": "Abu",
+      "createdAt": "2025-01-10T16:00:00Z",
+      "votes": [
+        {
+          "user": "Leo",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-01-10T16:05:00Z"
+        },
+        {
+          "user": "Enri",
+          "vote": "yes",
+          "isTopChoice": false,
+          "date": "2025-01-10T16:10:00Z"
+        },
+        {
+          "user": "Fane",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-01-10T16:15:00Z"
+        }
+      ]
+    },
+    {
+      "id": "prop-007",
+      "category": "ai",
+      "name": "MIRA",
+      "description": "'Mirare', guardare. See.",
+      "imageUrl": null,
+      "createdBy": "Vince",
+      "createdAt": "2025-01-11T16:00:00Z",
+      "votes": [
+        {
+          "user": "Digio",
+          "vote": "yes",
+          "isTopChoice": false,
+          "date": "2025-01-11T16:05:00Z"
+        },
+        {
+          "user": "Abu",
+          "vote": "yes",
+          "isTopChoice": true,
+          "date": "2025-01-11T16:10:00Z"
+        }
+      ]
+    }
+  ],
+  "users": {
+    "Leo": {
+      "topChoices": {
+        "azienda": [
+          "prop-001"
+        ],
+        "prodotto": [
+          "prop-004"
+        ],
+        "ai": [
+          "prop-006"
+        ]
+      }
+    },
+    "Enri": {
+      "topChoices": {
+        "azienda": [
+          "prop-001"
+        ],
+        "prodotto": [
+          "prop-005"
+        ],
+        "ai": []
+      }
+    },
+    "Fane": {
+      "topChoices": {
+        "azienda": [],
+        "prodotto": [
+          "prop-005"
+        ],
+        "ai": [
+          "prop-006"
+        ]
+      }
+    },
+    "Digio": {
+      "topChoices": {
+        "azienda": [
+          "prop-002"
+        ],
+        "prodotto": [],
+        "ai": []
+      }
+    },
+    "Vince": {
+      "topChoices": {
+        "azienda": [],
+        "prodotto": [
+          "prop-005"
+        ],
+        "ai": []
+      }
+    },
+    "Abu": {
+      "topChoices": {
+        "azienda": [],
+        "prodotto": [],
+        "ai": [
+          "prop-007"
+        ]
+      }
+    }
+  }
+}
