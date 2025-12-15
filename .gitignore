@@ -42,3 +42,6 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+
+# GitHub Pages specific
+# Static files are served from root for GitHub Pages

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <title>Suezo Merch | Official ChestUp Store</title>
+    <meta name="description"
+        content="Official Suezo merchandise: t-shirts, stickers, caps and more. Show your love for the smartest AI locker mascot.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="design-system.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional Merch-specific styles */
+        .merch-hero {
+            padding: 120px 0 80px;
+            background: radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+        }
+
+        .mascot-showcase {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto var(--space-6);
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(139, 92, 246, 0.3));
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-6);
+        }
+
+        .product-card {
+            background: var(--color-neutral-900);
+            border: 1px solid var(--color-neutral-800);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            transition: all var(--duration-base) var(--ease-out);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-primary-purple);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .product-image-wrapper {
+            aspect-ratio: 1;
+            background: var(--color-neutral-800);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-mockup {
+            width: 70%;
+            height: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform var(--duration-base) var(--ease-out);
+        }
+
+        .product-card:hover .product-mockup {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .product-info {
+            padding: var(--space-6);
+        }
+
+        .product-title {
+            font-size: var(--text-xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+        }
+
+        .product-price {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-weight-bold);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-4);
+        }
+
+        .product-description {
+            color: var(--color-neutral-400);
+            font-size: var(--text-sm);
+            margin-bottom: var(--space-4);
+        }
+
+        .badge-new {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-primary-pink);
+            color: white;
+            font-size: var(--text-xs);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            border-radius: var(--radius-lg);
+            letter-spacing: var(--tracking-wide);
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: var(--space-4);
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all var(--duration-base) var(--ease-out);
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">
+                    <svg class="logo-svg" width="40" height="40" viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="hsl(258, 90%, 66%)" />
+                                <stop offset="100%" stop-color="hsl(335, 85%, 66%)" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="15" y="35" width="70" height="45" rx="14" fill="none" stroke="url(#logoGrad)"
+                            stroke-width="8" stroke-linecap="round" />
+                        <path d="M22 24 H78" stroke="url(#logoGrad)" stroke-width="8" stroke-linecap="round" />
+                        <g transform="translate(0, 50)">
+                            <g transform="translate(35, 0)">
+                                <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5"
+                                    stroke-linecap="round" />
+                            </g>
+                            <g transform="translate(65, 0)">
+                                <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none" stroke="white"
+                                    stroke-width="4" />
+                                <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                            </g>
+                        </g>
+                    </svg>
+                    <span class="logo-text gradient-text">ChestUp</span>
+                </a>
+
+                <div class="nav-links hide-mobile">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index.html#features" class="nav-link">Features</a>
+                    <a href="index.html#pricing" class="nav-link">Prezzi</a>
+                    <a href="suezo-merch.html" class="nav-link" style="color: var(--color-primary-purple);">
+                        Suezo Store <span class="badge-dot"></span>
+                    </a>
+                    <a href="labs.html" class="nav-link" style="color: var(--color-primary-purple);">Labs</a>
+                </div>
+
+                <div class="nav-actions">
+                    <button class="btn btn-secondary">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                        </svg>
+                        Carrello (0)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="merch-hero section">
+        <div class="container">
+            <div class="text-center">
+                <!-- Suezo Mascot -->
+                <div class="mascot-showcase">
+                    <svg viewBox="0 0 100 100" width="100%" height="100%">
+                        <defs>
+                            <linearGradient id="suezGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#a78bfa" />
+                                <stop offset="100%" stop-color="#f472b6" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Chunky Body -->
+                        <rect x="15" y="35" width="70" height="45" rx="14" fill="none" stroke="url(#suezGrad)"
+                            stroke-width="8" stroke-linecap="round" />
+                        <!-- Lid -->
+                        <path d="M22 24 H78" stroke="url(#suezGrad)" stroke-width="8" stroke-linecap="round" />
+                        <!-- Eyes -->
+                        <g transform="translate(0, 50)">
+                            <!-- Left Eye - Blade -->
+                            <g transform="translate(35, 0)">
+                                <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5"
+                                    stroke-linecap="round" />
+                            </g>
+                            <!-- Right Eye - AI -->
+                            <g transform="translate(65, 0)">
+                                <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none" stroke="white"
+                                    stroke-width="4" />
+                                <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" class="animate-glow" />
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+
+                <span class="eyebrow">Official Merchandise</span>
+                <h1 class="animate-fade-in">Meet Suezo.<br>Wear Suezo.</h1>
+                <p class="section-description animate-fade-in delay-100"
+                    style="max-width: 600px; margin: var(--space-6) auto 0;">
+                    L'AI che protegge le tue cose. Carina, squadrata e indistruttibile.<br>
+                    Indossa il look "Pixel Approved".
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Shop the Collection</h2>
+                <p class="section-description">
+                    Premium merch per veri fan di Suezo. Design esclusivi, qualità top.
+                </p>
+            </div>
+
+            <div class="product-grid">
+
+                <!-- Product 1: Core Tee -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="badge-new">New</div>
+                        <div class="product-mockup">
+                            <!-- T-shirt mockup -->
+                            <div
+                                style="width: 180px; height: 200px; background: linear-gradient(135deg, #222 0%, #1a1a1a 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; clip-path: polygon(20% 0%, 80% 0%, 100% 15%, 100% 100%, 0% 100%, 0% 15%);">
+                                <svg width="70" height="70" viewBox="0 0 100 100">
+                                    <defs>
+                                        <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#a78bfa" />
+                                            <stop offset="100%" stop-color="#f472b6" />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="15" y="35" width="70" height="45" rx="14" fill="none"
+                                        stroke="url(#shirtGrad)" stroke-width="8" />
+                                    <path d="M22 24 H78" stroke="url(#shirtGrad)" stroke-width="8"
+                                        stroke-linecap="round" />
+                                    <g transform="translate(0, 50)">
+                                        <g transform="translate(35, 0)">
+                                            <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <g transform="translate(65, 0)">
+                                            <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none"
+                                                stroke="white" stroke-width="4" />
+                                            <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Suezo Core Tee</h3>
+                        <div class="product-price">€29.99</div>
+                        <p class="product-description">
+                            Premium t-shirt nera con logo Suezo gradient. 100% cotone organico, taglio unisex.
+                        </p>
+                        <button class="add-to-cart">Aggiungi al Carrello</button>
+                    </div>
+                </div>
+
+                <!-- Product 2: Holo Sticker Pack -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-mockup">
+                            <!-- Sticker mockup -->
+                            <div style="transform: rotate(-12deg);">
+                                <svg width="110" height="110"
+                                    style="background: linear-gradient(135deg, #111 0%, #222 100%); border-radius: 20px; padding: 12px; border: 4px solid white; filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));">
+                                    <defs>
+                                        <linearGradient id="stickerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#a78bfa" />
+                                            <stop offset="50%" stop-color="#ec4899" />
+                                            <stop offset="100%" stop-color="#f59e0b" />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="15" y="35" width="70" height="45" rx="14" fill="none"
+                                        stroke="url(#stickerGrad)" stroke-width="8" />
+                                    <path d="M22 24 H78" stroke="url(#stickerGrad)" stroke-width="8"
+                                        stroke-linecap="round" />
+                                    <g transform="translate(0, 50)">
+                                        <g transform="translate(35, 0)">
+                                            <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <g transform="translate(65, 0)">
+                                            <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none"
+                                                stroke="white" stroke-width="4" />
+                                            <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Holo-Sticker Pack</h3>
+                        <div class="product-price">€9.99</div>
+                        <p class="product-description">
+                            Pack da 5 sticker olografici resistenti all'acqua. Suezo in varie pose iconiche.
+                        </p>
+                        <button class="add-to-cart">Aggiungi al Carrello</button>
+                    </div>
+                </div>
+
+                <!-- Product 3: Dev Cap -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-mockup">
+                            <!-- Cap mockup -->
+                            <div
+                                style="width: 160px; height: 90px; background: linear-gradient(135deg, #222 0%, #1a1a1a 100%); border-radius: 80px 80px 12px 12px; position: relative; display: flex; justify-content: center; align-items: center; margin-top: 30px;">
+                                <div
+                                    style="width: 180px; height: 16px; background: linear-gradient(135deg, #333 0%, #222 100%); position: absolute; bottom: -2px; border-radius: 10px;">
+                                </div>
+                                <svg width="45" height="45" style="margin-bottom: 10px;">
+                                    <defs>
+                                        <linearGradient id="capGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#a78bfa" />
+                                            <stop offset="100%" stop-color="#f472b6" />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="15" y="35" width="70" height="45" rx="14" fill="none"
+                                        stroke="url(#capGrad)" stroke-width="8" />
+                                    <path d="M22 24 H78" stroke="url(#capGrad)" stroke-width="8"
+                                        stroke-linecap="round" />
+                                    <g transform="translate(0, 50)">
+                                        <g transform="translate(35, 0)">
+                                            <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <g transform="translate(65, 0)">
+                                            <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none"
+                                                stroke="white" stroke-width="4" />
+                                            <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Dev Cap</h3>
+                        <div class="product-price">€24.99</div>
+                        <p class="product-description">
+                            Cappellino regolabile nero con ricamo Suezo. Perfetto per dev e maker.
+                        </p>
+                        <button class="add-to-cart">Aggiungi al Carrello</button>
+                    </div>
+                </div>
+
+                <!-- Product 4: Premium Hoodie -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="badge-new">Popular</div>
+                        <div class="product-mockup">
+                            <!-- Hoodie mockup -->
+                            <div
+                                style="width: 170px; height: 200px; background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%); border-radius: 24px; display: flex; align-items: center; justify-content: center; position: relative; clip-path: polygon(25% 0%, 75% 0%, 100% 20%, 100% 100%, 0% 100%, 0% 20%);">
+                                <!-- Hood shape -->
+                                <div
+                                    style="position: absolute; top: -10px; width: 120px; height: 40px; background: linear-gradient(135deg, #222 0%, #1a1a1a 100%); border-radius: 60px 60px 0 0;">
+                                </div>
+                                <svg width="80" height="80">
+                                    <defs>
+                                        <linearGradient id="hoodieGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#a78bfa" />
+                                            <stop offset="100%" stop-color="#f472b6" />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="15" y="35" width="70" height="45" rx="14" fill="none"
+                                        stroke="url(#hoodieGrad)" stroke-width="8" />
+                                    <path d="M22 24 H78" stroke="url(#hoodieGrad)" stroke-width="8"
+                                        stroke-linecap="round" />
+                                    <g transform="translate(0, 50)">
+                                        <g transform="translate(35, 0)">
+                                            <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <g transform="translate(65, 0)">
+                                            <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none"
+                                                stroke="white" stroke-width="4" />
+                                            <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Premium Hoodie</h3>
+                        <div class="product-price">€59.99</div>
+                        <p class="product-description">
+                            Felpa premium con cappuccio. Logo gradient ricamato, interno felpato, tasca a marsupio.
+                        </p>
+                        <button class="add-to-cart">Aggiungi al Carrello</button>
+                    </div>
+                </div>
+
+                <!-- Product 5: Art Print -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-mockup">
+                            <!-- Print mockup -->
+                            <div
+                                style="width: 140px; height: 180px; background: white; border: 8px solid #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;">
+                                <svg width="90" height="90">
+                                    <defs>
+                                        <linearGradient id="printGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#8b5cf6" />
+                                            <stop offset="50%" stop-color="#ec4899" />
+                                            <stop offset="100%" stop-color="#f59e0b" />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="15" y="35" width="70" height="45" rx="14" fill="url(#printGrad)"
+                                        stroke="none" />
+                                    <path d="M22 24 H78" stroke="#111" stroke-width="8" stroke-linecap="round" />
+                                    <g transform="translate(0, 50)">
+                                        <g transform="translate(35, 0)">
+                                            <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <g transform="translate(65, 0)">
+                                            <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none"
+                                                stroke="white" stroke-width="4" />
+                                            <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Art Print Firmata</h3>
+                        <div class="product-price">€129.99</div>
+                        <p class="product-description">
+                            Edizione limitata 100 pezzi. A2 su carta d'artista, firmata dal designer.
+                        </p>
+                        <button class="add-to-cart">Aggiungi al Carrello</button>
+                    </div>
+                </div>
+
+                <!-- Product 6: Tote Bag -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-mockup">
+                            <!-- Tote bag mockup -->
+                            <div
+                                style="width: 140px; height: 160px; background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); border-radius: 12px 12px 24px 24px; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <!-- Handles -->
+                                <div
+                                    style="position: absolute; top: -10px; left: 30px; width: 30px; height: 20px; border: 4px solid #ddd; border-bottom: none; border-radius: 15px 15px 0 0;">
+                                </div>
+                                <div
+                                    style="position: absolute; top: -10px; right: 30px; width: 30px; height: 20px; border: 4px solid #ddd; border-bottom: none; border-radius: 15px 15px 0 0;">
+                                </div>
+                                <svg width="70" height="70">
+                                    <defs>
+                                        <linearGradient id="bagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#8b5cf6" />
+                                            <stop offset="100%" stop-color="#ec4899" />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="15" y="35" width="70" height="45" rx="14" fill="none"
+                                        stroke="url(#bagGrad)" stroke-width="8" />
+                                    <path d="M22 24 H78" stroke="url(#bagGrad)" stroke-width="8"
+                                        stroke-linecap="round" />
+                                    <g transform="translate(0, 50)">
+                                        <g transform="translate(35, 0)">
+                                            <line x1="0" y1="-8" x2="0" y2="8" stroke="#111" stroke-width="5"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <g transform="translate(65, 0)">
+                                            <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none"
+                                                stroke="#111" stroke-width="4" />
+                                            <rect x="-3" y="-3" width="6" height="6" rx="2" fill="#111" />
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Tote Bag Canvas</h3>
+                        <div class="product-price">€19.99</div>
+                        <p class="product-description">
+                            Borsa canvas naturale con stampa Suezo. Resistente, capiente, ecologica.
+                        </p>
+                        <button class="add-to-cart">Aggiungi al Carrello</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section" style="background: var(--color-neutral-900);">
+        <div class="container">
+            <div class="cta-card card-glass text-center">
+                <h2>Diventa un Suezo Ambassador</h2>
+                <p style="max-width: 600px; margin: var(--space-4) auto var(--space-6);">
+                    Hai un'audience? Partneriamo con creator, developer e tech enthusiast. Contattaci per il programma
+                    ambassador.
+                </p>
+                <button class="btn btn-primary btn-lg">Candidati Ora</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <svg width="32" height="32" viewBox="0 0 100 100">
+                            <defs>
+                                <linearGradient id="footerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="hsl(258, 90%, 66%)" />
+                                    <stop offset="100%" stop-color="hsl(335, 85%, 66%)" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="15" y="35" width="70" height="45" rx="14" fill="none" stroke="url(#footerGrad)"
+                                stroke-width="8" />
+                            <path d="M22 24 H78" stroke="url(#footerGrad)" stroke-width="8" stroke-linecap="round" />
+                            <g transform="translate(0, 50)">
+                                <g transform="translate(35, 0)">
+                                    <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="5"
+                                        stroke-linecap="round" />
+                                </g>
+                                <g transform="translate(65, 0)">
+                                    <rect x="-10" y="-10" width="20" height="20" rx="6" fill="none" stroke="white"
+                                        stroke-width="4" />
+                                    <rect x="-3" y="-3" width="6" height="6" rx="2" fill="white" />
+                                </g>
+                            </g>
+                        </svg>
+                        <span class="gradient-text">ChestUp</span>
+                    </div>
+                    <p>Il custode che non dorme mai.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Shop</h4>
+                    <a href="#clothing">Abbigliamento</a>
+                    <a href="#accessories">Accessori</a>
+                    <a href="#collectibles">Collezionabili</a>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Supporto</h4>
+                    <a href="#">Spedizioni</a>
+                    <a href="#">Resi</a>
+                    <a href="#">Taglie</a>
+                    <a href="#">FAQ</a>
+                </div>
+
+                <div class="footer-links">
+                    <h4>ChestUp</h4>
+                    <a href="index.html">Homepage</a>
+                    <a href="index.html#features">Prodotto</a>
+                    <a href="index.html#pricing">Pre-ordina</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 ChestUp Inc. Suezo is watching. 👁️</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Twitter">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
