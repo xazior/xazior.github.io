@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naming Proposals | Brand Identity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="design-system.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin-top: var(--space-12);
+        }
+
+        .section-separator {
+            grid-column: 1 / -1;
+            margin-top: var(--space-12);
+            padding-top: var(--space-8);
+            border-top: 1px dashed var(--color-neutral-800);
+            text-align: center;
+        }
+
+        @media (max-width: 968px) {
+            .split-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .naming-category {
+            padding: var(--space-8);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--color-neutral-800);
+            border-radius: var(--radius-2xl);
+        }
+
+        .category-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--color-neutral-800);
+        }
+
+        .category-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 24px;
+        }
+
+        .name-card {
+            background: var(--color-neutral-900);
+            border: 1px solid var(--color-neutral-800);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .name-card:hover {
+            border-color: var(--color-neutral-600);
+            transform: translateX(4px);
+            background: #111;
+        }
+
+        .name-title {
+            font-size: var(--text-2xl);
+            font-weight: 800;
+            margin-bottom: var(--space-2);
+            color: white;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .name-tagline {
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--color-primary-purple);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-3);
+            display: block;
+        }
+
+        .name-desc {
+            font-size: var(--text-sm);
+            color: var(--color-neutral-400);
+            line-height: 1.6;
+            margin-bottom: var(--space-4);
+        }
+
+        .name-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+            font-size: var(--text-xs);
+            color: var(--color-neutral-500);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: var(--space-3);
+        }
+
+        .vote-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--color-neutral-700);
+            background: transparent;
+            color: var(--color-neutral-400);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .vote-btn:hover,
+        .vote-btn.active {
+            background: var(--color-primary-purple);
+            border-color: var(--color-primary-purple);
+            color: white;
+        }
+
+        .nerd-badge {
+            background: rgba(236, 72, 153, 0.2);
+            color: #f472b6;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .ita-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .fusion-badge {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Legal Risk Badges */
+        .risk-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: auto;
+        }
+
+        .risk-low {
+            background: #22c55e;
+            color: #052e16;
+        }
+
+        .risk-med {
+            background: #eab308;
+            color: #422006;
+        }
+
+        .risk-high {
+            background: #f97316;
+            color: #431407;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="labs.html" class="nav-logo">
+                    <span class="logo-text">Labs</span>
+                    <span style="color: var(--color-neutral-500); margin: 0 8px;">/</span>
+                    <span style="font-size: 14px; color: var(--color-neutral-300);">Naming DB</span>
+                </a>
+                <a href="labs.html" class="nav-link">Back to Hub</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="labs-hero" style="padding-bottom: 40px;">
+            <span class="eyebrow" style="color: #10b981;">Complete Database</span>
+            <h1 class="hero-title">Naming <span class="gradient-text">Matrix</span></h1>
+            <p class="hero-description" style="max-width: 600px; margin: 0 auto;">
+                Database Completo. Include opzioni Nerd Culture (Mitigate), Italian Heritage e Fusion Concepts.
+            </p>
+        </section>
+
+        <!-- ========= PART 1: NERD CULTURE ========= -->
+        <h2 style="text-align: center; color: var(--color-neutral-500); margin-bottom: 20px;">Category A: Nerd Culture &
+            Sci-Fi</h2>
+
+        <div class="split-section">
+            <div class="naming-category">
+                <div class="category-header">
+                    <div class="category-icon" style="color: #60a5fa;">🏢</div>
+                    <h2 style="margin-bottom: 8px;">Hardware</h2>
+                </div>
+                <!-- 1 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Classic</span>
+                    <div class="name-title">Aegis Systems <span class="risk-badge risk-low">Low</span></div>
+                </div>
+                <!-- 2 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Net Tech</span>
+                    <div class="name-title">NEXO Guard <span class="risk-badge risk-med">Med</span></div>
+                </div>
+                <!-- 3 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Nordic</span>
+                    <div class="name-title">KIVU <span class="risk-badge risk-low">Safe</span></div>
+                </div>
+                <!-- 4 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Fantasy</span>
+                    <div class="name-title">MITHRIL <span class="risk-badge risk-med">Med</span></div>
+                </div>
+                <!-- 5 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Sci-Fi</span>
+                    <div class="name-title">MONOLITH <span class="risk-badge risk-low">Low</span></div>
+                </div>
+                <!-- 6 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Storage</span>
+                    <div class="name-title">TESSERACT <span class="risk-badge risk-med">Med</span></div>
+                </div>
+                <!-- 7 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Tech</span>
+                    <div class="name-title">CAPSULE <span class="risk-badge risk-low">Low</span></div>
+                </div>
+                <!-- 8 -->
+                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
+                        onclick="toggleVote(this)">+</button><span class="name-tagline">Eva 01</span>
+                    <div class="name-title">UNIT 01 <span class="risk-badge risk-low">Safe</span></div>
+                </div>
+                <!-- 9 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Myth</span>
+                    <div class="name-title">YGGDRASIL <span class="risk-badge risk-low">Low</span></div>
+                </div>
+                <!-- 10 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Giant</span>
+                    <div class="name-title">JAEGER <span class="risk-badge risk-med">Med</span></div>
+                </div>
+            </div>
+
+            <div class="naming-category">
+                <div class="category-header">
+                    <div class="category-icon" style="color: #a78bfa;">🤖</div>
+                    <h2 style="margin-bottom: 8px;">AI Mascotte</h2>
+                </div>
+                <!-- 1 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Watcher</span>
+                    <div class="name-title">ARGUS <span class="risk-badge risk-low">Safe</span></div>
+                </div>
+                <!-- 2 -->
+                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
+                        onclick="toggleVote(this)">+</button><span class="name-tagline">Tron</span>
+                    <div class="name-title">BIT <span class="risk-badge risk-low">Safe</span></div>
+                </div>
+                <!-- 3 -->
+                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
+                        onclick="toggleVote(this)">+</button><span class="name-tagline">3D</span>
+                    <div class="name-title">VOXEL <span class="risk-badge risk-low">Safe</span></div>
+                </div>
+                <!-- 4 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Soul</span>
+                    <div class="name-title">AL <span class="risk-badge risk-low">Low</span></div>
+                </div>
+                <!-- 5 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Guide</span>
+                    <div class="name-title">NAVI <span class="risk-badge risk-med">Med</span></div>
+                </div>
+                <!-- 6 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Tank</span>
+                    <div class="name-title">TACHI <span class="risk-badge risk-low">Low</span></div>
+                </div>
+                <!-- 7 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Anime</span>
+                    <div class="name-title">YUI <span class="risk-badge risk-med">Med</span></div>
+                </div>
+                <!-- 8 -->
+                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
+                        onclick="toggleVote(this)">+</button><span class="name-tagline">Greek</span>
+                    <div class="name-title">KUBOS <span class="risk-badge risk-low">Safe</span></div>
+                </div>
+                <!-- 9 -->
+                <div class="name-card" style="border-color: #10b981;"><button class="vote-btn"
+                        onclick="toggleVote(this)">+</button><span class="name-tagline">Eva</span>
+                    <div class="name-title">MAGI <span class="risk-badge risk-med">Med</span></div>
+                </div>
+                <!-- 10 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Classic</span>
+                    <div class="name-title">HAL <span class="risk-badge risk-med">Med</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========= PART 2: LATINO / ITALIAN ========= -->
+        <div class="section-separator">
+            <span class="eyebrow" style="color: #10b981; font-size: 14px;">Integrazione Heritage</span>
+            <h2 style="font-size: 24px;">Category B: Italian Heritage & Latin Roots</h2>
+        </div>
+
+        <div class="split-section" style="margin-top: 20px;">
+            <div class="naming-category">
+                <div class="category-header">
+                    <div class="category-icon" style="color: #10b981;">🏛️</div>
+                    <h2 style="margin-bottom: 8px;">L'Azienda (Latin)</h2>
+                </div>
+                <!-- 1 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">To Protect <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">SERVAT</div>
+                    <p class="name-desc">Dal latino "Servare". "Servat Domum".</p>
+                </div>
+                <!-- 2 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Closed <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">ARCANA</div>
+                    <p class="name-desc">I segreti custoditi.</p>
+                </div>
+                <!-- 3 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Shield <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">SCUTUM</div>
+                    <p class="name-desc">Lo scudo romano.</p>
+                </div>
+                <!-- 4 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Vault <span class="ita-badge">Italiano</span></span>
+                    <div class="name-title">FORZIERE</div>
+                    <p class="name-desc">Il baule del tesoro. Pirati e valore.</p>
+                </div>
+                <!-- 5 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Iron <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">FERRUM</div>
+                    <p class="name-desc">Elementare. Solido. Semplice.</p>
+                </div>
+                <!-- 6 - SuperNØva -->
+                <div class="name-card" style="border-color: #8b5cf6;"><button class="vote-btn"
+                        onclick="toggleVote(this)">+</button><span class="name-tagline">Modern <span class="nerd-badge">Recommended</span></span>
+                    <div class="name-title">SuperNØva</div>
+                    <p class="name-desc">Sistema di naming esistente. Ricerca, brand identity e mercato già sviluppati.</p>
+                </div>
+            </div>
+            <div class="naming-category">
+                <div class="category-header">
+                    <div class="category-icon" style="color: #10b981;">👁️</div>
+                    <h2 style="margin-bottom: 8px;">L'AI (Il Genio)</h2>
+                </div>
+                <!-- 1 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Genius <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">GENIO</div>
+                    <p class="name-desc">Genius Loci. Spirito del Luogo.</p>
+                </div>
+                <!-- 2 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">See <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">MIRA</div>
+                    <p class="name-desc">"Mirare", guardare.</p>
+                </div>
+                <!-- 3 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Faithful <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">FIDO</div>
+                    <p class="name-desc">"Fidus". L'assistente fedele.</p>
+                </div>
+                <!-- 4 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Voice <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">VOCE</div>
+                    <p class="name-desc">Semplice. La Voce.</p>
+                </div>
+                <!-- 5 -->
+                <div class="name-card"><button class="vote-btn" onclick="toggleVote(this)">+</button><span
+                        class="name-tagline">Guardian <span class="ita-badge">Latino</span></span>
+                    <div class="name-title">CUSTOS</div>
+                    <p class="name-desc">Il custode.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========= PART 3: CONCEPT FUSION (NEW) ========= -->
+        <div class="section-separator">
+            <span class="eyebrow" style="color: #8b5cf6; font-size: 14px;">Il Nesso Yggdrasil-Latino</span>
+            <h2 style="font-size: 24px;">Category C: Concept Fusion (Roots & Axis)</h2>
+            <p style="color: var(--color-neutral-400);">
+                Fusione tra il mito nordico dell'Albero Mondo (Yggdrasil) e la lingua Latina.<br>
+                <em>"L'albero che connette tutto."</em>
+            </p>
+        </div>
+
+        <div class="split-section" style="margin-top: 20px; grid-template-columns: repeat(3, 1fr);">
+
+            <!-- OPTION 1 -->
+            <div class="name-card" style="border: 1px solid #8b5cf6;">
+                <button class="vote-btn" onclick="toggleVote(this)">+</button>
+                <span class="name-tagline">World Axis <span class="fusion-badge">Fusion</span></span>
+                <div class="name-title">AXIS</div>
+                <p class="name-desc">
+                    L'<strong>Axis Mundi</strong> (Latino) è l'asse attorno a cui ruota il mondo, proprio come
+                    Yggdrasil.
+                    Nome solido, geometrico, perfetto per l'Engineering.
+                </p>
+            </div>
+
+            <!-- OPTION 2 -->
+            <div class="name-card" style="border: 1px solid #8b5cf6;">
+                <button class="vote-btn" onclick="toggleVote(this)">+</button>
+                <span class="name-tagline">The Tree <span class="fusion-badge">Fusion</span></span>
+                <div class="name-title">ARBOR</div>
+                <p class="name-desc">
+                    "Albero" in Latino. L'<strong>Arbor Vitae</strong> (Albero della Vita) è il corrispettivo diretto di
+                    Yggdrasil.
+                    Minimalista, biologico, evoca crescita e rete.
+                </p>
+            </div>
+
+            <!-- OPTION 3 -->
+            <div class="name-card" style="border: 1px solid #8b5cf6;">
+                <button class="vote-btn" onclick="toggleVote(this)">+</button>
+                <span class="name-tagline">The Root <span class="fusion-badge">Fusion</span></span>
+                <div class="name-title">RADIX</div>
+                <p class="name-desc">
+                    "Radice" in Latino. Yggdrasil è definito dalle sue radici che connettono i mondi.
+                    Il locker è la <strong>Radice</strong> della Smart Home. Suono "Cyberpunk".
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <br><br><br>
+    <footer class="footer">
+        <div class="container text-center">
+            <p style="color: var(--color-neutral-500); font-size: 12px;">Internal Brand Document. Final Revision.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleVote(btn) {
+            btn.classList.toggle('active');
+            if (btn.classList.contains('active')) {
+                btn.innerText = '✓';
+            } else {
+                btn.innerText = '+';
+            }
+        }
+    </script>
+</body>
+
+</html>
