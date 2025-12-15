@@ -636,11 +636,10 @@
         
         let currentUser = null;
         let currentCategory = 'azienda';
-        let allProposals = new Map(); // category -> proposals
+        let proposals = [];
         let userVotes = new Map();
-        let topChoices = new Map(); // category -> top choices
+        let topChoices = [];
         let charts = new Map();
-        let unsubscribeProposals = null;
 
         // User management
         const users = [
@@ -683,10 +682,7 @@
                 await auth.signOut();
                 currentUser = null;
                 userVotes.clear();
-                topChoices.clear();
-                if (unsubscribeProposals) {
-                    unsubscribeProposals();
-                }
+                topChoices = [];
                 showFeedback('Logout effettuato con successo', 'success');
             } catch (error) {
                 console.error('Logout error:', error);
@@ -700,7 +696,6 @@
                     currentUser = user;
                     showVotingInterface();
                     loadUserData();
-                    subscribeToProposals();
                 } else {
                     currentUser = null;
                     showLoginInterface();
@@ -730,11 +725,10 @@
         function saveTopChoices() {
             if (!currentUser) return Promise.resolve();
 
-            const choices = topChoices.get(currentCategory) || [];
             const topChoicesData = {
                 userId: currentUser.email,
                 category: currentCategory,
-                choices: choices,
+                choices: topChoices,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
@@ -742,10 +736,11 @@
         }
 
         function loadUserVotes() {
-            if (!currentUser) return Promise.resolve();
+            if (!currentUser) return;
 
             return db.collection('votes')
                 .where('userId', '==', currentUser.email)
+                .where('category', '==', currentCategory)
                 .get()
                 .then((snapshot) => {
                     userVotes.clear();
@@ -760,79 +755,42 @@
             if (!currentUser) return Promise.resolve();
 
             return db.collection('topChoices')
-                .where('userId', '==', currentUser.email)
+                .doc(`${currentUser.email}_${currentCategory}`)
                 .get()
-                .then((snapshot) => {
-                    topChoices.clear();
-                    snapshot.forEach((doc) => {
+                .then((doc) => {
+                    if (doc.exists) {
                         const data = doc.data();
-                        topChoices.set(data.category, data.choices || []);
-                    });
+                        topChoices = data.choices || [];
+                    } else {
+                        topChoices = [];
+                    }
                 });
         }
 
         function subscribeToProposals() {
-            if (unsubscribeProposals) {
-                unsubscribeProposals();
-            }
-
-            unsubscribeProposals = db.collection('proposals')
+            return db.collection('proposals')
                 .where('category', '==', currentCategory)
-                .onSnapshot(async (snapshot) => {
+                .onSnapshot((snapshot) => {
                     const newProposals = [];
                     snapshot.forEach((doc) => {
                         const proposal = { id: doc.id, ...doc.data() };
+                        proposal.score = calculateProposalScore(proposal);
+                        proposal.isNew = isNewProposal(proposal.createdAt);
                         newProposals.push(proposal);
                     });
 
-                    // Calculate scores for each proposal
-                    await calculateProposalScores(newProposals);
-                    
                     // Sort by score (descending)
-                    newProposals.sort((a, b) => (b.score || 0) - (a.score || 0));
-                    
-                    // Add new flag and set score
-                    newProposals.forEach(proposal => {
-                        proposal.score = proposal.score || 0;
-                        proposal.isNew = isNewProposal(proposal.createdAt);
-                    });
-
-                    allProposals.set(currentCategory, newProposals);
+                    newProposals.sort((a, b) => b.score - a.score);
+                    proposals = newProposals;
                     renderProposals();
                     updateStats();
                 });
         }
 
-        async function calculateProposalScores(proposals) {
-            // For each proposal, calculate total score from all votes
-            for (const proposal of proposals) {
-                const votesSnapshot = await db.collection('votes')
-                    .where('proposalId', '==', proposal.id)
-                    .get();
-
-                let totalScore = 0;
-                votesSnapshot.forEach((doc) => {
-                    const vote = doc.data();
-                    const isTopChoice = vote.isTopChoice || false;
-                    const voteValue = vote.vote;
-                    
-                    if (voteValue === 'yes') {
-                        totalScore += isTopChoice ? 3 : 1;
-                    } else if (voteValue === 'no') {
-                        totalScore += isTopChoice ? -3 : -1;
-                    }
-                    // 'ignore' adds 0 points
-                });
-
-                proposal.totalScore = totalScore;
-                proposal.score = totalScore;
-                
-                // Update proposal in Firestore
-                await db.collection('proposals').doc(proposal.id).update({
-                    totalScore: totalScore,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            }
+        function calculateProposalScore(proposal) {
+            // This would need to be calculated from votes collection
+            // For now, return a mock score
+            return proposal.totalScore || 0;
         }
 
         function isNewProposal(createdAt) {
@@ -843,24 +801,13 @@
             return diffHours < 24;
         }
 
-        async function addProposal(name, description, imageFile) {
+        function addProposal(name, description, imageFile) {
             if (!currentUser) return Promise.reject('User not authenticated');
-
-            let imageUrl = null;
-            if (imageFile) {
-                try {
-                    imageUrl = await uploadImageToImgBB(imageFile);
-                } catch (error) {
-                    console.error('Image upload failed:', error);
-                    // Continue without image
-                }
-            }
 
             const proposalData = {
                 category: currentCategory,
                 name: name,
                 description: description,
-                imageUrl: imageUrl,
                 createdBy: currentUser.email,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 totalScore: 0
@@ -873,8 +820,6 @@
             if (!file) return null;
 
             try {
-                // For demo purposes, return a placeholder
-                // In real implementation, you would use ImgBB API
                 const formData = new FormData();
                 formData.append('image', file);
 
@@ -945,7 +890,8 @@
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.getElementById(`content-${category}`).classList.add('active');
 
-            // Subscribe to proposals for new category
+            // Load data for new category
+            loadUserData();
             subscribeToProposals();
         }
 
@@ -957,10 +903,7 @@
         }
 
         function renderProposals() {
-            const proposals = allProposals.get(currentCategory) || [];
-            const container = document.getElementById(`proposals-list-${currentCategory}`);
-            if (!container) return;
-
+            const container = document.getElementById('proposals-list');
             if (!proposals.length) {
                 container.innerHTML = '<div class="loading">Nessuna proposta disponibile</div>';
                 return;
@@ -968,8 +911,7 @@
 
             container.innerHTML = proposals.map(proposal => {
                 const userVote = userVotes.get(proposal.id);
-                const categoryTopChoices = topChoices.get(currentCategory) || [];
-                const isTopChoice = categoryTopChoices.includes(proposal.id);
+                const isTopChoice = topChoices.includes(proposal.id);
                 const isNew = proposal.isNew;
 
                 return `
@@ -1011,7 +953,7 @@
                             </button>
                             <button class="top-choice-btn ${isTopChoice ? 'active' : ''}" 
                                     onclick="toggleTopChoice('${proposal.id}')"
-                                    ${categoryTopChoices.length >= 3 && !isTopChoice ? 'disabled' : ''}
+                                    ${topChoices.length >= 3 && !isTopChoice ? 'disabled' : ''}
                                     title="${isTopChoice ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}">
                                 ★
                             </button>
@@ -1022,32 +964,22 @@
         }
 
         function updateStats() {
-            const proposals = allProposals.get(currentCategory) || [];
             const totalProposals = proposals.length;
             const avgScore = proposals.length > 0 ? 
-                (proposals.reduce((sum, p) => sum + (p.score || 0), 0) / proposals.length).toFixed(1) : 0;
+                (proposals.reduce((sum, p) => sum + p.score, 0) / proposals.length).toFixed(1) : 0;
             const bestProposal = proposals.length > 0 ? proposals[0] : null;
 
-            // Update stats in current category
-            const totalEl = document.getElementById(`total-proposals-${currentCategory}`);
-            const avgEl = document.getElementById(`avg-score-${currentCategory}`);
-            const bestEl = document.getElementById(`best-proposal-${currentCategory}`);
-            
-            if (totalEl) totalEl.textContent = totalProposals;
-            if (avgEl) avgEl.textContent = avgScore;
-            if (bestEl) bestEl.textContent = bestProposal ? bestProposal.name : 'N/A';
+            document.getElementById('total-proposals').textContent = totalProposals;
+            document.getElementById('avg-score').textContent = avgScore;
+            document.getElementById('best-proposal').textContent = bestProposal ? bestProposal.name : 'N/A';
 
             updateTopChoicesList();
             updateChart();
         }
 
         function updateTopChoicesList() {
-            const choices = topChoices.get(currentCategory) || [];
-            const proposals = allProposals.get(currentCategory) || [];
-            const topChoiceProposals = proposals.filter(p => choices.includes(p.id));
-            
-            const container = document.getElementById(`top-choices-list-${currentCategory}`);
-            if (!container) return;
+            const container = document.getElementById('top-choices-list');
+            const topChoiceProposals = proposals.filter(p => topChoices.includes(p.id));
             
             container.innerHTML = topChoiceProposals.map(proposal => `
                 <div class="top-choice-item">
@@ -1055,27 +987,21 @@
                 </div>
             `).join('') || '<div style="color: var(--color-neutral-500); font-size: 12px;">Nessuna scelta top</div>';
 
-            const counterEl = document.getElementById(`top-choices-counter-${currentCategory}`);
-            if (counterEl) {
-                counterEl.textContent = `Top choices: ${choices.length}/3`;
-            }
+            document.getElementById('top-choices-counter').textContent = `Top choices: ${topChoices.length}/3`;
         }
 
         function updateChart() {
-            const proposals = allProposals.get(currentCategory) || [];
+            const ctx = document.getElementById('score-chart');
+            if (!ctx) return;
+
             const top5 = proposals.slice(0, 5);
-            
-            // Destroy existing chart for this category
-            if (charts.has(currentCategory)) {
-                charts.get(currentCategory).destroy();
-            }
-
-            const ctx = document.getElementById(`score-chart-${currentCategory}`);
-            if (!ctx || top5.length === 0) return;
-
             const labels = top5.map(p => p.name);
-            const data = top5.map(p => p.score || 0);
+            const data = top5.map(p => p.score);
             const colors = data.map(score => score >= 0 ? '#10b981' : '#ef4444');
+
+            if (charts.has('main')) {
+                charts.get('main').destroy();
+            }
 
             const chart = new Chart(ctx, {
                 type: 'bar',
@@ -1120,7 +1046,7 @@
                 }
             });
 
-            charts.set(currentCategory, chart);
+            charts.set('main', chart);
         }
 
         function formatDate(timestamp) {
@@ -1143,13 +1069,13 @@
             if (!currentUser) return;
 
             try {
-                const choices = topChoices.get(currentCategory) || [];
-                const isTopChoice = choices.includes(proposalId);
+                const isTopChoice = topChoices.includes(proposalId);
                 await saveVote(proposalId, voteType, isTopChoice);
                 showFeedback('Voto registrato!', 'success');
                 
                 // Reload user data to reflect changes
                 await loadUserVotes();
+                renderProposals();
             } catch (error) {
                 console.error('Vote error:', error);
                 showFeedback('Errore nel registrare il voto', 'error');
@@ -1159,25 +1085,20 @@
         async function toggleTopChoice(proposalId) {
             if (!currentUser) return;
 
-            const choices = topChoices.get(currentCategory) || [];
-            const index = choices.indexOf(proposalId);
-            
+            const index = topChoices.indexOf(proposalId);
             if (index > -1) {
-                choices.splice(index, 1);
+                topChoices.splice(index, 1);
             } else {
-                if (choices.length >= 3) {
+                if (topChoices.length >= 3) {
                     showFeedback('Puoi selezionare massimo 3 proposte top', 'error');
                     return;
                 }
-                choices.push(proposalId);
+                topChoices.push(proposalId);
             }
-
-            topChoices.set(currentCategory, choices);
 
             try {
                 await saveTopChoices();
-                const userVote = userVotes.get(proposalId);
-                await saveVote(proposalId, userVote?.vote || 'ignore', choices.includes(proposalId));
+                await saveVote(proposalId, userVotes.get(proposalId)?.vote || 'ignore', topChoices.includes(proposalId));
                 showFeedback('Preferenze aggiornate!', 'success');
                 await loadUserVotes();
                 renderProposals();
@@ -1207,21 +1128,14 @@
                 
                 let imageUrl = null;
                 if (imageFile) {
-                    try {
-                        imageUrl = await uploadImageToImgBB(imageFile);
-                    } catch (error) {
-                        console.warn('Image upload failed, continuing without image');
-                    }
+                    imageUrl = await uploadImageToImgBB(imageFile);
                 }
 
                 await addProposal(name, description, imageUrl);
                 showFeedback('Proposta aggiunta con successo!', 'success');
                 
                 form.reset();
-                const selectedFileEl = document.getElementById(`selected-file-${currentCategory}`);
-                if (selectedFileEl) {
-                    selectedFileEl.style.display = 'none';
-                }
+                document.getElementById('selected-file').style.display = 'none';
             } catch (error) {
                 console.error('Add proposal error:', error);
                 showFeedback('Errore nell\'aggiungere la proposta', 'error');
@@ -1247,7 +1161,7 @@
 
         function handleFileSelect(event) {
             const file = event.target.files[0];
-            const selectedFileEl = document.getElementById(`selected-file-${currentCategory}`);
+            const selectedFileEl = document.getElementById('selected-file');
             
             if (file) {
                 selectedFileEl.textContent = `File selezionato: ${file.name}`;
@@ -1272,8 +1186,7 @@
             
             const files = event.dataTransfer.files;
             if (files.length > 0) {
-                const inputId = `image-input-${currentCategory}`;
-                document.getElementById(inputId).files = files;
+                document.getElementById('image-input').files = files;
                 handleFileSelect({ target: { files: files } });
             }
         }
@@ -1298,22 +1211,16 @@
             // Logout button
             document.getElementById('logout-btn').addEventListener('click', logout);
 
-            // Add proposal forms for each category
-            document.querySelectorAll('[id^="add-proposal-form"]').forEach(form => {
-                form.addEventListener('submit', handleAddProposal);
-            });
+            // Add proposal form
+            document.getElementById('add-proposal-form').addEventListener('submit', handleAddProposal);
 
-            // File upload inputs
-            document.querySelectorAll('input[type="file"]').forEach(input => {
-                input.addEventListener('change', handleFileSelect);
-            });
+            // File upload
+            document.getElementById('image-input').addEventListener('change', handleFileSelect);
 
-            // File upload areas
-            document.querySelectorAll('.file-upload-area').forEach(area => {
-                area.addEventListener('dragover', handleDragOver);
-                area.addEventListener('dragleave', handleDragLeave);
-                area.addEventListener('drop', handleDrop);
-            });
+            const uploadArea = document.querySelector('.file-upload-area');
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('dragleave', handleDragLeave);
+            uploadArea.addEventListener('drop', handleDrop);
 
             // Set default active tab
             switchCategory('azienda');
@@ -1383,27 +1290,27 @@
                 <div>
                     <div class="add-proposal-form">
                         <h3 style="color: white; margin-bottom: 15px; font-size: 16px;">➕ Aggiungi Nuova Proposta</h3>
-                        <form id="add-proposal-form-azienda">
+                        <form id="add-proposal-form">
                             <div class="form-group-voting">
-                                <label for="proposal-name-azienda">Nome Proposta</label>
-                                <input type="text" id="proposal-name-azienda" name="name" required 
+                                <label for="proposal-name">Nome Proposta</label>
+                                <input type="text" id="proposal-name" name="name" required 
                                        placeholder="Inserisci il nome della proposta">
                             </div>
                             
                             <div class="form-group-voting">
-                                <label for="proposal-desc-azienda">Descrizione</label>
-                                <textarea id="proposal-desc-azienda" name="description" required 
+                                <label for="proposal-desc">Descrizione</label>
+                                <textarea id="proposal-desc" name="description" required 
                                           placeholder="Descrivi la tua proposta..."></textarea>
                             </div>
                             
                             <div class="form-group-voting">
                                 <label>Immagine (facoltativa)</label>
-                                <div class="file-upload-area" onclick="document.getElementById('image-input-azienda').click()">
+                                <div class="file-upload-area" onclick="document.getElementById('image-input').click()">
                                     <div class="upload-icon">📁</div>
                                     <div class="upload-text">Clicca o trascina un file qui</div>
                                 </div>
-                                <input type="file" id="image-input-azienda" name="image" accept="image/*" style="display: none;">
-                                <div id="selected-file-azienda" class="selected-file" style="display: none;"></div>
+                                <input type="file" id="image-input" name="image" accept="image/*" style="display: none;">
+                                <div id="selected-file" class="selected-file" style="display: none;"></div>
                             </div>
                             
                             <button type="submit" class="add-proposal-btn">🚀 Proponi</button>
@@ -1419,7 +1326,7 @@
                         <p>Caricamento proposte...</p>
                     </div>
 
-                    <div id="proposals-list-azienda" class="proposals-list">
+                    <div id="proposals-list" class="proposals-list">
                         <!-- Proposals will be loaded here -->
                     </div>
                 </div>
@@ -1427,8 +1334,8 @@
                 <div class="sidebar">
                     <div class="sidebar-section">
                         <div class="sidebar-title">⭐ I tuoi Top 3</div>
-                        <div class="top-choices-counter" id="top-choices-counter-azienda">Top choices: 0/3</div>
-                        <div id="top-choices-list-azienda" class="top-choices-list">
+                        <div class="top-choices-counter" id="top-choices-counter">Top choices: 0/3</div>
+                        <div id="top-choices-list" class="top-choices-list">
                             <!-- Top choices will be loaded here -->
                         </div>
                         <button class="save-votes-btn" onclick="saveTopChoices()">💾 Salva Preferenze</button>
@@ -1438,22 +1345,22 @@
                         <div class="sidebar-title">📊 Statistiche</div>
                         <div class="stats-item">
                             <span class="stats-label">Totale Proposte:</span>
-                            <span class="stats-value" id="total-proposals-azienda">0</span>
+                            <span class="stats-value" id="total-proposals">0</span>
                         </div>
                         <div class="stats-item">
                             <span class="stats-label">Punteggio Medio:</span>
-                            <span class="stats-value" id="avg-score-azienda">0</span>
+                            <span class="stats-value" id="avg-score">0</span>
                         </div>
                         <div class="stats-item">
                             <span class="stats-label">Miglior Proposta:</span>
-                            <span class="stats-value" id="best-proposal-azienda">N/A</span>
+                            <span class="stats-value" id="best-proposal">N/A</span>
                         </div>
                     </div>
 
                     <div class="sidebar-section">
                         <div class="sidebar-title">📈 Top 5 Punteggi</div>
                         <div class="chart-container">
-                            <canvas id="score-chart-azienda"></canvas>
+                            <canvas id="score-chart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -1461,6 +1368,7 @@
         </div>
 
         <div class="tab-content" id="content-prodotti">
+            <!-- Same content as azienda, just different category -->
             <div class="proposals-grid">
                 <div>
                     <div class="add-proposal-form">
@@ -1539,6 +1447,7 @@
         </div>
 
         <div class="tab-content" id="content-ai">
+            <!-- Same content as azienda, just different category -->
             <div class="proposals-grid">
                 <div>
                     <div class="add-proposal-form">
